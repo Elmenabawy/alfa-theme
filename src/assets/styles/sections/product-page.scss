@@ -136,3 +136,51 @@
 .carousel > * { scroll-snap-align: start; }
 @media (min-width: 640px)  { .carousel { grid-auto-columns: 42%; } }
 @media (min-width: 1024px) { .carousel { grid-auto-columns: 23%; } }
+
+// ---- Rich PDP info elements ------------------------------------------------
+.pdp__brand { display: inline-block; font-weight: 700; font-size: .85rem; color: var(--brand-primary); margin-block-end: .35rem; }
+
+.pdp__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .85rem; color: var(--color-text-muted); margin-block: .25rem .75rem; }
+.pdp__meta-dot { opacity: .5; }
+.pdp__meta-rate { display: inline-flex; align-items: center; gap: .4rem; a { color: var(--color-text-muted); } }
+// Star rating fill driven by --rate (% width) over a muted track.
+.pdp__stars {
+  --rate: 100%;
+  position: relative;
+  display: inline-block;
+  color: color-mix(in srgb, var(--color-text-muted) 35%, transparent);
+  font-size: .95rem; letter-spacing: 1px;
+}
+.pdp__stars::before {
+  content: "★★★★★";
+  position: absolute; inset-block-start: 0; inset-inline-start: 0;
+  width: var(--rate); overflow: hidden; white-space: nowrap;
+  color: var(--brand-accent);
+}
+
+.pdp__save {
+  font-size: .82rem; font-weight: 700; color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 14%, transparent);
+  padding: .25rem .6rem; border-radius: var(--radius-pill);
+}
+
+.pdp__installments { margin-block: .25rem 1rem; }
+.pdp__installments-fallback { margin: 0; font-size: .82rem; color: var(--color-text-muted); }
+// Hide the fallback line when Salla's installment widget actually renders content.
+salla-installment:not(:empty) + .pdp__installments-fallback { display: none; }
+
+.pdp__highlights { list-style: none; margin: 1rem 0; padding: 0; display: grid; gap: .5rem; }
+.pdp__highlights li { display: flex; align-items: flex-start; gap: .6rem; font-size: .92rem; }
+.pdp__highlights svg { flex: 0 0 auto; width: 20px; height: 20px; color: var(--brand-primary); margin-block-start: 1px; }
+
+.pdp__delivery {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .75rem 1rem; border-radius: var(--radius-md);
+  font-size: .9rem; margin-block: 1rem;
+  svg { flex: 0 0 auto; width: 22px; height: 22px; color: var(--brand-primary); }
+  strong { color: var(--color-text); }
+}
+
+.pdp__share { display: flex; align-items: center; gap: .35rem; margin-block: 1rem; flex-wrap: wrap; }
+.pdp__share-label { font-size: .85rem; color: var(--color-text-muted); margin-inline-end: .25rem; }
+.pdp__share [data-share-copied] { color: var(--color-success); font-size: .8rem; margin-inline-start: .25rem; }

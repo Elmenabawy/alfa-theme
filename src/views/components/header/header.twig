@@ -1,0 +1,100 @@
+{#
+  header.twig — sticky glass header (real Salla conventions).
+  - Logo, desktop menu (<salla-menu source="header">), custom expanding search,
+    theme toggle, wishlist, custom cart drawer trigger, account (<salla-user-menu>).
+  - Mobile burger opens the slide-in menu drawer (#mobile-menu, below).
+  - .is-scrolled (app.js) intensifies the glass on scroll.
+  Icon-only buttons all carry aria-labels and ≥44px targets.
+#}
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+
+    {# Mobile menu trigger #}
+    <button type="button" class="btn-icon lg:hidden" data-mobile-menu-open aria-label="{{ trans('common.elements.menu') }}" aria-controls="mobile-menu" aria-expanded="false">
+      <i class="sicon-menu" aria-hidden="true"></i>
+    </button>
+
+    <a href="{{ store.url }}" class="site-header__logo" aria-label="{{ store.name }}">
+      {% if store.logo %}
+        <img src="{{ store.logo | cdn(160) }}" alt="{{ store.name }}" width="120" height="36" fetchpriority="high">
+      {% else %}
+        <span>{{ store.name }}</span>
+      {% endif %}
+    </a>
+
+    {# Desktop primary nav #}
+    <nav class="site-nav" aria-label="{{ trans('common.elements.main_menu') }}">
+      <salla-menu source="header"></salla-menu>
+    </nav>
+
+    <div class="site-header__actions">
+      {# Expanding search (wired to salla quick-search in app.js) #}
+      <div class="search" data-search>
+        <form class="search__field" role="search" action="{{ link('search') }}" method="get">
+          <input type="search" name="q" class="search__input" placeholder="{{ trans('pages.search.search') }}" aria-label="{{ trans('pages.search.search') }}" autocomplete="off" data-search-input>
+        </form>
+        <button type="button" class="btn-icon" data-search-toggle aria-label="{{ trans('pages.search.search') }}" aria-expanded="false">
+          <i class="sicon-search" aria-hidden="true"></i>
+        </button>
+        <div class="search__results" data-search-results role="listbox" aria-label="{{ trans('pages.search.search') }}"></div>
+      </div>
+
+      {% if theme.settings.get('enable_dark_mode_toggle', true) %}
+        <button type="button" class="btn-icon" data-theme-toggle aria-label="{{ trans('common.elements.dark_mode') | default('الوضع الليلي') }}">
+          <i class="sicon-sun" aria-hidden="true"></i>
+        </button>
+      {% endif %}
+
+      <a href="{{ link('wishlist') }}" class="btn-icon hidden sm:inline-flex" aria-label="{{ trans('pages.wishlist.title') }}" style="position:relative">
+        <i class="sicon-heart" aria-hidden="true"></i>
+        <span class="count-badge" data-wishlist-count hidden>0</span>
+      </a>
+
+      <salla-user-menu avatar-only show-header show-trigger></salla-user-menu>
+
+      {# Custom cart drawer trigger; count synced by sticky-cart.js via salla.cart events #}
+      <button type="button" class="btn-icon" data-cart-toggle aria-label="{{ trans('pages.cart.cart') }}" style="position:relative">
+        <i class="sicon-shopping-bag" aria-hidden="true"></i>
+        <span class="count-badge" data-cart-count hidden>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{# ===================== Mobile slide-in menu drawer ===================== #}
+<div class="m-menu-overlay" data-mobile-menu-overlay aria-hidden="true"></div>
+<aside id="mobile-menu" class="m-menu glass-strong" data-mobile-menu role="dialog" aria-modal="true" aria-label="{{ trans('common.elements.menu') }}" data-open="false" hidden>
+  <div class="m-menu__head">
+    <span class="site-header__logo"><span>{{ store.name }}</span></span>
+    <button type="button" class="btn-icon" data-mobile-menu-close aria-label="{{ trans('common.elements.close') }}"><i class="sicon-cancel" aria-hidden="true"></i></button>
+  </div>
+  <div class="m-menu__body">
+    <salla-menu source="header" mobile></salla-menu>
+  </div>
+  <div class="m-menu__foot">
+    {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+      <salla-localization-modal show-trigger></salla-localization-modal>
+    {% endif %}
+    <salla-social></salla-social>
+  </div>
+</aside>
+
+{# ===================== Mobile bottom navigation ===================== #}
+<nav class="m-bottomnav glass-strong lg:hidden" aria-label="{{ trans('common.elements.main_menu') }}">
+  <a class="m-bottomnav__item {{ is_page('index') ? 'is-active' : '' }}" href="{{ store.url }}">
+    <i class="sicon-home" aria-hidden="true"></i><span>{{ trans('common.elements.home') | default('الرئيسية') }}</span>
+  </a>
+  <a class="m-bottomnav__item" href="{{ link('products') }}">
+    <i class="sicon-category" aria-hidden="true"></i><span>{{ trans('common.elements.categories') | default('الأقسام') }}</span>
+  </a>
+  <button type="button" class="m-bottomnav__item" data-search-toggle aria-label="{{ trans('pages.search.search') }}">
+    <i class="sicon-search" aria-hidden="true"></i><span>{{ trans('pages.search.search') }}</span>
+  </button>
+  <button type="button" class="m-bottomnav__item" data-cart-toggle style="position:relative">
+    <i class="sicon-shopping-bag" aria-hidden="true"></i><span>{{ trans('pages.cart.cart') }}</span>
+    <span class="count-badge" data-cart-count hidden>0</span>
+  </button>
+  <a class="m-bottomnav__item" href="{{ link('profile') }}">
+    <i class="sicon-user" aria-hidden="true"></i><span>{{ trans('common.elements.account') | default('حسابي') }}</span>
+  </a>
+</nav>

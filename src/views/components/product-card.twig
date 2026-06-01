@@ -1,0 +1,60 @@
+{#
+  product-card.twig — reusable custom card (home/category/carousels/quick-view).
+  Usage:  {% include 'components.product-card' with { product: product } %}
+  Keeps our premium design; cart/wishlist use Salla web components so the real
+  flows fire. Product fields follow Salla's Twig Product object.
+  CLS-safe: aspect-ratio media box + width/height on the image.
+#}
+{% set low = theme.settings.get('low_stock_threshold', 5) %}
+<article
+  class="product-card"
+  data-reveal
+  data-product-id="{{ product.id }}"
+  data-product='{{ { id: product.id, name: product.name, price: product.price, image: product.image.url, url: product.url } | json_encode }}'
+>
+  <div class="product-card__media">
+
+    {% if product.is_on_sale %}
+      <span class="product-card__ribbon">
+        {{ product.discount_ends ? trans('pages.products.discount') : trans('pages.products.sale') | default('تخفيض') }}
+      </span>
+    {% endif %}
+
+    <button type="button" class="product-card__wish" data-wishlist-toggle aria-pressed="false" aria-label="{{ trans('pages.wishlist.add_label') | default('أضف إلى المفضلة') }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-9.3-9C1 7.5 3 4.5 6.2 4.5c2 0 3.2 1.2 3.8 2.2.6-1 1.8-2.2 3.8-2.2 3.2 0 5.2 3 3.5 6.5C19 15.5 12 20 12 20z"/></svg>
+    </button>
+
+    <a href="{{ product.url }}" class="product-card__link" aria-label="{{ product.name }}">
+      <img class="product-card__img"
+           src="{{ product.image.url | default(theme.settings.get('placeholder') | asset) }}"
+           alt="{{ product.image.alt | default(product.name) }}"
+           width="400" height="400" loading="lazy" decoding="async">
+    </a>
+
+    <button type="button" class="btn-icon glass" data-quick-view aria-label="{{ trans('pages.products.quick_view') | default('عرض سريع') }}"
+            style="position:absolute; inset-block-start:.5rem; inset-inline-start:.5rem; z-index:2; width:40px; height:40px;">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+
+    <div class="product-card__quickadd">
+      <salla-add-product-button product-id="{{ product.id }}" class="btn btn--primary btn--block" {% if not product.is_available %}disabled{% endif %}>
+        {{ product.is_available ? trans('pages.products.add_to_cart') : trans('pages.products.out_of_stock') }}
+      </salla-add-product-button>
+    </div>
+  </div>
+
+  <div class="product-card__body">
+    <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.name }}</a></h3>
+
+    <div class="product-card__price">
+      <span class="product-card__price-now">{{ product.price }}</span>
+      {% if product.is_on_sale %}
+        <span class="product-card__price-was">{{ product.regular_price }}</span>
+      {% endif %}
+    </div>
+
+    {% if product.quantity is not null and product.quantity > 0 and product.quantity <= low %}
+      <span class="stock-badge">{{ trans('pages.products.remained') | default('بقي') }} {{ product.quantity }}</span>
+    {% endif %}
+  </div>
+</article>

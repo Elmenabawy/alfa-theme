@@ -1,0 +1,87 @@
+{#
+  master.twig — root layout (real Salla Twilight conventions).
+  Globals: store, theme, language, user, page. URLs via link(); assets via
+  asset(); CDN images via cdn(); i18n via trans(); hooks via {% hook %}.
+  Merchant store color (theme.color.primary) feeds our --brand-primary token;
+  secondary/accent keep the theme's two-tone defaults from tokens.scss.
+#}
+<!DOCTYPE html>
+<html lang="{{ language.code }}" dir="{{ theme.is_rtl ? 'rtl' : 'ltr' }}" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="{{ theme.color.primary }}">
+  {{ theme.settings.set('placeholder', 'images/placeholder-product.svg') }}
+
+  {% hook 'head:start' %}
+  {% hook head %}
+  {% block styles %}{% endblock %}
+
+  {# Fonts: Tajawal + IBM Plex Sans Arabic (display=swap protects LCP) + Salla icons #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ 'fonts/sallaicons.css' | cdn }}"/>
+  <link rel="stylesheet" href="{{ 'app.css' | asset }}">
+
+  {# Merchant store color flows into our token system; brand two-tone keeps defaults #}
+  <style id="brand-tokens">
+    :root {
+      --brand-primary-raw: {{ theme.color.primary }};
+      --color-primary: {{ theme.color.primary }};
+      --color-primary-dark: {{ theme.color.darker(0.15) }};
+      --color-primary-light: {{ theme.color.lighter(0.15) }};
+    }
+  </style>
+  {% hook 'head:end' %}
+</head>
+
+<body id="app" class="overflow-x-hidden {% hook 'body:classes' %}">
+  <a href="#main-content" class="skip-link">{{ trans('common.elements.skip_to_content') }}</a>
+
+  {% hook 'body:start' %}
+  {% include 'components.announcement-bar' %}
+  {% component 'header.header' %}
+
+  <main id="main-content" role="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% component 'footer.footer' %}
+
+  {# Global overlays (our chrome) #}
+  {% include 'components.cart-drawer' %}
+  {% include 'components.quick-view-modal' %}
+  {% if theme.settings.get('enable_exit_intent', true) %}
+    {% include 'components.exit-intent-modal' %}
+  {% endif %}
+
+  {# CRO config for our JS modules #}
+  <script id="theme-config" type="application/json">
+    {
+      "freeShippingThreshold": {{ theme.settings.get('free_shipping_threshold', 200) }},
+      "lowStockThreshold": {{ theme.settings.get('low_stock_threshold', 5) }},
+      "enableSocialProof": {{ theme.settings.get('enable_social_proof', true) ? 'true' : 'false' }},
+      "enableExitIntent": {{ theme.settings.get('enable_exit_intent', true) ? 'true' : 'false' }},
+      "exitIntentCoupon": "{{ theme.settings.get('exit_intent_coupon', 'WELCOME10') }}",
+      "enableRecentlyViewed": {{ theme.settings.get('enable_recently_viewed', true) ? 'true' : 'false' }},
+      "giftWrapPrice": {{ theme.settings.get('gift_wrap_price', 15) }}
+    }
+  </script>
+
+  {# Salla framework web components #}
+  <salla-search></salla-search>
+  <salla-login-modal></salla-login-modal>
+  {% if theme.settings.get('enable_add_product_toast', true) %}
+    <salla-add-product-toast></salla-add-product-toast>
+  {% endif %}
+  {% if store.scope %}
+    <salla-scopes selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>
+  {% endif %}
+
+  {% hook 'body:end' %}
+  <script type="module" src="{{ 'app.js' | asset }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

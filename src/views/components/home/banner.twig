@@ -1,0 +1,42 @@
+{#
+  banner.twig — configurable promotional banner.
+  Dashboard options (component fields):
+    • full_width   → edge-to-edge, breaks out of the container (no h-padding/margin)
+    • top_padding  → none | sm | md | lg  (space above the banner)
+    • corners      → rounded | sharp
+    • height       → sm | md | lg
+    • image, link, eyebrow, title, subtitle, cta_label, overlay
+  Image carries width/height → zero CLS. Honors RTL automatically.
+#}
+{% set s = component | default(section.settings) | default({}) %}
+{% set full   = s.full_width | default(false) %}
+{% set pt     = s.top_padding | default('md') %}
+{% set corners= s.corners | default('rounded') %}
+{% set height = s.height | default('md') %}
+{% set hasText = (s.title is defined and s.title) or (s.cta_label is defined and s.cta_label) %}
+
+<section
+  class="alfa-banner alfa-banner--pt-{{ pt }} alfa-banner--h-{{ height }} alfa-banner--{{ corners }} {{ full ? 'alfa-banner--full' : '' }}"
+  data-reveal
+>
+  <a class="alfa-banner__frame {{ s.overlay | default(true) ? 'has-overlay' : '' }}"
+     href="{{ s.link | default('#') }}"
+     {% if not (s.link | default('')) %}aria-disabled="true" tabindex="-1"{% endif %}
+     aria-label="{{ s.title | default('بانر') }}">
+    <img
+      class="alfa-banner__img"
+      src="{{ s.image | default('assets/images/placeholder-product.svg' | asset) }}"
+      alt="{{ s.image_alt | default(s.title) | default('بانر ترويجي') }}"
+      width="1600" height="600"
+      loading="lazy" decoding="async"
+    >
+    {% if hasText %}
+      <div class="alfa-banner__content container">
+        {% if s.eyebrow | default('') %}<span class="alfa-banner__eyebrow">{{ s.eyebrow }}</span>{% endif %}
+        {% if s.title | default('') %}<h2 class="alfa-banner__title">{{ s.title }}</h2>{% endif %}
+        {% if s.subtitle | default('') %}<p class="alfa-banner__sub">{{ s.subtitle }}</p>{% endif %}
+        {% if s.cta_label | default('') %}<span class="btn btn--primary alfa-banner__cta">{{ s.cta_label }}</span>{% endif %}
+      </div>
+    {% endif %}
+  </a>
+</section>

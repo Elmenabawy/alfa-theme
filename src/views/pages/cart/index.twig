@@ -1,0 +1,35 @@
+{#
+  cart/index.twig — full cart page. Uses Salla's <salla-cart> for the
+  authoritative list/totals; we add the free-shipping bar + glass summary
+  shell. The slide-in drawer remains the primary cart UI elsewhere.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+<div class="container section">
+  <h1 class="section__title" style="margin-block-end:1.5rem">{{ trans('pages.cart.cart') | default('سلّة التسوّق') }}</h1>
+
+  <div class="cart-page-grid">
+    <div>
+      <div class="ship-bar glass" style="border-radius:var(--radius-lg);margin-block-end:1rem" data-ship-bar>
+        <p class="ship-bar__msg" data-ship-msg aria-live="polite"></p>
+        <div class="ship-bar__track"><div class="ship-bar__fill" data-ship-fill></div></div>
+      </div>
+      <salla-cart></salla-cart>
+    </div>
+
+    <aside class="glass" style="border-radius:var(--radius-lg);padding:1.25rem;align-self:start;
+            position:sticky;inset-block-start:calc(var(--header-h) + var(--announcement-h) + 1rem)">
+      <salla-cart-summary></salla-cart-summary>
+      <a href="{{ link('cart.checkout.preferences') | default(link('cart')) }}" class="btn btn--primary btn--block btn--lg" style="margin-block-start:1rem">{{ trans('pages.cart.checkout') | default('إتمام الطلب') }}</a>
+    </aside>
+  </div>
+
+  {% include 'components.recently-viewed' %}
+</div>
+
+<style>
+  .cart-page-grid { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .cart-page-grid { grid-template-columns: 1fr 360px; } }
+</style>
+{% endblock %}

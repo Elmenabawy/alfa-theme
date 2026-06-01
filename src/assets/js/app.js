@@ -99,6 +99,36 @@ function initThemeToggle() {
   }));
 }
 
+function initMobileMenu() {
+  const menu = q('[data-mobile-menu]');
+  const overlay = q('[data-mobile-menu-overlay]');
+  if (!menu || menu.__bound) return;
+  menu.__bound = true;
+  let lastFocused = null;
+
+  const open = () => {
+    menu.hidden = false;
+    requestAnimationFrame(() => { menu.dataset.open = 'true'; overlay.dataset.open = 'true'; document.body.classList.add('is-locked'); });
+    qa('[data-mobile-menu-open]').forEach((b) => b.setAttribute('aria-expanded', 'true'));
+    lastFocused = document.activeElement;
+    q('[data-mobile-menu-close]', menu)?.focus();
+  };
+  const close = () => {
+    menu.dataset.open = 'false'; overlay.dataset.open = 'false';
+    document.body.classList.remove('is-locked');
+    qa('[data-mobile-menu-open]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+    setTimeout(() => { menu.hidden = true; }, 320);
+    lastFocused?.focus?.();
+  };
+
+  qa('[data-mobile-menu-open]').forEach((b) => b.addEventListener('click', open));
+  q('[data-mobile-menu-close]', menu)?.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.dataset.open === 'true') close(); });
+  // Close after navigating via a menu link.
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) close(); });
+}
+
 function initSearch() {
   const wrap = q('[data-search]');
   if (!wrap) return;
@@ -218,6 +248,28 @@ function initNewsletter(root = document) {
   input.addEventListener('input', () => { if (input.value && valid(input.value)) { input.removeAttribute('aria-invalid'); err.textContent = ''; } });
 }
 
+function initShare(root = document) {
+  const box = q('[data-share]', root);
+  if (!box) return;
+  const url = box.dataset.shareUrl || location.href;
+  const title = box.dataset.shareTitle || document.title;
+  const enc = encodeURIComponent(url);
+
+  q('[data-share-wa]', box)?.setAttribute('href', `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`);
+  q('[data-share-x]', box)?.setAttribute('href', `https://twitter.com/intent/tweet?url=${enc}&text=${encodeURIComponent(title)}`);
+
+  const native = q('[data-share-native]', box);
+  if (navigator.share) {
+    native?.addEventListener('click', () => navigator.share({ title, url }).catch(() => {}));
+  } else { native?.setAttribute('hidden', ''); }   // hide if unsupported
+
+  q('[data-share-copy]', box)?.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(url); q('[data-share-copied]', box).textContent = 'تم النسخ ✓'; }
+    catch { q('[data-share-copied]', box).textContent = url; }
+    setTimeout(() => { const c = q('[data-share-copied]', box); if (c) c.textContent = ''; }, 2500);
+  });
+}
+
 function initSocialProof(root = document) {
   if (!config.enableSocialProof) return;
   const el = q('[data-social-proof-text]', root);
@@ -237,6 +289,7 @@ function initGlobalOnce() {
   initHeaderScroll();
   initAnnouncementBar();
   initThemeToggle();
+  initMobileMenu();
   initSearch();
   initStickyCart();
   initWishlist();
@@ -252,6 +305,7 @@ function initPerPage() {
   initHeroParallax();
   initCarousels();
   initNewsletter();
+  initShare();
   initSocialProof();
   initFreeShipping();
   initRecentlyViewed();

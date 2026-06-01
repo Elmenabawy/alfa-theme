@@ -1,0 +1,15 @@
+{#
+  index.twig — home page. Renders dashboard-configured components via the
+  Salla {% component home %} tag (the merchant builds/orders them in the
+  dashboard). The recently-viewed strip is appended client-side.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+  {% component home %}
+  {% include 'components.recently-viewed' %}
+{% endblock %}
+
+{% block scripts %}
+  <script type="module" src="{{ 'home.js' | asset }}"></script>
+{% endblock %}

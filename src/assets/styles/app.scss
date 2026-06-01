@@ -20,8 +20,13 @@
 
 // Sections
 @use "sections/header";
+@use "sections/mobile-nav";
 @use "sections/hero";
 @use "sections/featured";
+@use "sections/banner";
+@use "sections/store-features";
+@use "sections/category-links";
+@use "sections/store-map";
 @use "sections/product-page";
 @use "sections/footer";
 

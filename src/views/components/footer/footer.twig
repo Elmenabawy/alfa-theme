@@ -1,0 +1,64 @@
+{#
+  footer.twig — mega footer (real Salla conventions).
+  Our gradient newsletter + glass styling wrap Salla's framework components:
+  <salla-menu source="footer">, <salla-contacts>, <salla-social>,
+  <salla-payments>, <salla-trust-badges>. Newsletter form is validated inline
+  by app.js (salla.newsletter.subscribe).
+#}
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+
+    {# ---- Newsletter ---- #}
+    <section class="footer-newsletter has-grain" aria-labelledby="nl-title">
+      <div>
+        <h2 id="nl-title">{{ trans('blocks.footer.newsletter') | default('انضمّ إلى نشرتنا البريدية') }}</h2>
+        <p style="margin:0;opacity:.9">{{ trans('blocks.footer.newsletter_desc') | default('أحدث المنتجات والعروض الحصرية في بريدك.') }}</p>
+      </div>
+      <form class="newsletter-form" data-newsletter novalidate>
+        <input type="email" name="email" class="newsletter-form__input" placeholder="{{ trans('common.elements.email') | default('بريدك الإلكتروني') }}" aria-label="{{ trans('common.elements.email') | default('البريد الإلكتروني') }}" autocomplete="email" required>
+        <button type="submit" class="btn btn--ghost" style="background:#fff;color:var(--brand-primary);border-color:#fff">{{ trans('common.elements.subscribe') | default('اشترك') }}</button>
+        <p class="newsletter-form__error" data-newsletter-error role="alert" aria-live="polite"></p>
+      </form>
+    </section>
+
+    {# ---- Columns ---- #}
+    <div class="footer-cols">
+      <div class="footer-col footer-col--brand">
+        <a href="{{ store.url }}" class="site-header__logo" style="font-size:1.2rem">
+          {% if store.logo %}<img src="{{ store.logo | cdn(160) }}" alt="{{ store.name }}" width="120" height="36" loading="lazy">{% else %}<span>{{ store.name }}</span>{% endif %}
+        </a>
+        {% if store.description %}<p style="color:var(--color-text-muted);font-size:.9rem;margin-block:.75rem 0;max-width:34ch">{{ store.description | raw }}</p>{% endif %}
+      </div>
+
+      <div class="footer-col">
+        <h3>{{ trans('blocks.footer.pages_links') | default('روابط') }}</h3>
+        <salla-menu source="footer"></salla-menu>
+      </div>
+
+      <div class="footer-col">
+        <h3>{{ trans('common.elements.contacts') | default('تواصل معنا') }}</h3>
+        <salla-contacts></salla-contacts>
+      </div>
+
+      <div class="footer-col">
+        <h3>{{ trans('common.title.follow_us') | default('تابعنا') }}</h3>
+        <salla-social></salla-social>
+      </div>
+    </div>
+
+    {# ---- Accessibility statement ---- #}
+    <p style="font-size:.82rem;color:var(--color-text-muted);max-width:60ch;margin:0">
+      نلتزم بإتاحة متجرنا للجميع وفق معايير WCAG AA. لأي ملاحظة حول الوصول،
+      <a href="{{ link('contact') }}" style="color:var(--brand-primary);font-weight:600">تواصل معنا</a>.
+    </p>
+
+    {# ---- Bottom bar ---- #}
+    <div class="footer-bottom">
+      <span class="copyright-text">{% hook copyright %} © {{ 'now' | date('Y') }} {{ store.name }}</span>
+      <div class="footer-bottom__pay">
+        <salla-trust-badges></salla-trust-badges>
+        <salla-payments></salla-payments>
+      </div>
+    </div>
+  </div>
+</footer>

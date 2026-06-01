@@ -1,0 +1,75 @@
+// ============================================================================
+//  mobile-nav.scss — mobile slide-in menu drawer + fixed bottom navigation.
+//  Drawer slides from the inline-start edge (right in RTL). Bottom nav is a
+//  glass bar fixed to the bottom on < lg, with a safe-area inset.
+// ============================================================================
+
+// Salla icon font sizing inside our icon buttons (icons are now <i class="sicon-*">)
+.btn-icon i { font-size: 22px; line-height: 1; }
+.m-bottomnav__item i { font-size: 22px; line-height: 1; }
+
+// ---- Slide-in menu drawer --------------------------------------------------
+.m-menu-overlay {
+  position: fixed; inset: 0; z-index: var(--z-drawer);
+  background: rgba(10,9,15,.45);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--dur-base) var(--ease-friendly), visibility var(--dur-base) var(--ease-friendly);
+  &[data-open="true"] { opacity: 1; visibility: visible; }
+}
+
+.m-menu {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;                 // RTL → right, LTR → left
+  z-index: var(--z-drawer);
+  width: min(320px, 86vw);
+  display: flex;
+  flex-direction: column;
+  border-inline-end: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(-100%);          // off-screen toward inline-start
+  transition: transform var(--dur-slow) var(--ease-friendly);
+  &[data-open="true"] { transform: translateX(0); }
+}
+[dir="rtl"] .m-menu { transform: translateX(100%); }
+[dir="rtl"] .m-menu[data-open="true"] { transform: translateX(0); }
+
+.m-menu__head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.1rem; border-block-end: 1px solid var(--glass-border); }
+.m-menu__body { flex: 1; overflow-y: auto; padding: 0.5rem 0.75rem; }
+.m-menu__foot { padding: 1rem 1.1rem; border-block-start: 1px solid var(--glass-border); display: flex; flex-direction: column; gap: .75rem; }
+
+@media (min-width: 1024px) { .m-menu, .m-menu-overlay { display: none; } }
+
+// ---- Bottom navigation -----------------------------------------------------
+.m-bottomnav {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--z-header);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-block-start: 1px solid var(--glass-border);
+  padding-block-end: env(safe-area-inset-bottom);
+}
+.m-bottomnav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding-block: 0.5rem;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  position: relative;
+  transition: color var(--dur-fast) var(--ease-friendly);
+  &.is-active, &:hover { color: var(--brand-primary); }
+  .count-badge { inset-block-start: 2px; inset-inline-end: 18%; }
+}
+
+// Reserve space so the bottom nav never covers page content on mobile.
+@media (max-width: 1023px) {
+  body { padding-block-end: calc(60px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 1024px) { .m-bottomnav { display: none; } }

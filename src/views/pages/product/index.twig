@@ -1,0 +1,46 @@
+{#
+  product/index.twig — category / listing page. Glass sticky filter bar +
+  responsive grid. Iterates the page `products` with our custom card when
+  available; otherwise falls back to Salla's <salla-products-list>. Empty
+  result → friendly empty state. 2-up at 360px → 4-up on desktop.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+<div class="container">
+  <header class="section" style="padding-block:2rem 1rem" data-reveal>
+    <h1 class="section__title">{{ category.name | default(trans('pages.products.title')) | default('كل المنتجات') }}</h1>
+    {% if category.description %}<p style="color:var(--color-text-muted);max-width:60ch">{{ category.description | raw }}</p>{% endif %}
+  </header>
+
+  {# Filter / sort bar #}
+  <div class="glass" style="position:sticky; inset-block-start:calc(var(--header-h) + var(--announcement-h)); z-index:5;
+              display:flex; gap:.75rem; align-items:center; justify-content:space-between;
+              padding:.6rem 1rem; border-radius:var(--radius-pill); margin-block-end:1.5rem">
+    <salla-filters></salla-filters>
+    <salla-sort></salla-sort>
+  </div>
+
+  {% if products is defined and products | length %}
+    <div class="product-grid">
+      {% for product in products %}
+        {% include 'components.product-card' with { product: product } %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {# Salla-native listing (handles fetch + pagination + filtering) #}
+    <salla-products-list
+      source="{{ source | default('categories') }}"
+      source-value="{{ category.id | default('') }}">
+    </salla-products-list>
+  {% endif %}
+
+  {% include 'components.recently-viewed' %}
+</div>
+
+<style>
+  .product-grid { display: grid; gap: .85rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 768px)  { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+  @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+</style>
+{% endblock %}

@@ -1,0 +1,39 @@
+{#
+  store-features.twig — animated "why shop with us" strip.
+  Each feature card: animated icon (continuous subtle motion + hover pop),
+  staggered scroll-reveal entrance. Configurable via a `features` collection;
+  falls back to four sensible defaults. All motion respects reduced-motion.
+#}
+{% set s = component | default(section.settings) | default({}) %}
+{% set title = s.title | default('لماذا تتسوّق معنا؟') %}
+{% set items = s.features | default([
+  { icon: 'truck',   title: 'شحن سريع',   text: 'توصيل خلال 2-4 أيام لكل المدن' },
+  { icon: 'shield',  title: 'دفع آمن',     text: 'بوابات دفع موثوقة ومشفّرة' },
+  { icon: 'refresh', title: 'إرجاع مجاني', text: 'استبدال أو استرجاع خلال 14 يوماً' },
+  { icon: 'headset', title: 'دعم 24/7',    text: 'فريقنا جاهز لمساعدتك دائماً' }
+]) %}
+
+<section class="section container store-features" aria-labelledby="sf-title" data-reveal>
+  {% if title %}<div class="section__head"><h2 class="section__title" id="sf-title">{{ title }}</h2></div>{% endif %}
+
+  <ul class="store-features__grid">
+    {% for it in items %}
+      <li class="sf-card glass" data-reveal style="--reveal-i: {{ loop.index0 }}">
+        <span class="sf-card__icon" aria-hidden="true">
+          {% set ic = it.icon | default('truck') %}
+          {% if ic == 'truck' %}
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="18" r="2" stroke="currentColor" stroke-width="2"/></svg>
+          {% elseif ic == 'shield' %}
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {% elseif ic == 'refresh' %}
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 9h11a5 5 0 0 1 0 10H9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 5L3 9l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {% else %}
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-2" stroke="currentColor" stroke-width="2"/><rect x="3" y="12" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="17" y="12" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="2"/></svg>
+          {% endif %}
+        </span>
+        <strong class="sf-card__title">{{ it.title }}</strong>
+        <span class="sf-card__text">{{ it.text }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

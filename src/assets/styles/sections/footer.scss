@@ -50,3 +50,6 @@
 .payment-icons { display: flex; gap: 0.5rem; align-items: center; }
 .payment-icons img { height: 24px; width: auto; opacity: 0.8; }
 .social-links { display: flex; gap: 0.4rem; }
+.footer-bottom__pay { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.footer-col--brand { grid-column: span 2; }
+@media (max-width: 767px) { .footer-col--brand { grid-column: span 2; } }

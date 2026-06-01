@@ -1,0 +1,92 @@
+// ============================================================================
+//  banner.scss — promotional banner with merchant layout options:
+//  full-width breakout, top-padding scale, rounded/sharp corners, height scale.
+// ============================================================================
+
+.alfa-banner {
+  // Default: lives inside the page container width.
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (min-width: 768px) { padding-inline: 1.5rem; }
+}
+
+// ---- Full-width: break out of the container, no horizontal padding/margin --
+// The 50%/50vw trick recentres a full-viewport-width element regardless of
+// parent width; it is direction-agnostic so it works in RTL and LTR.
+.alfa-banner--full {
+  max-width: none;
+  width: 100vw;
+  margin-inline-start: calc(50% - 50vw);
+  margin-inline-end: calc(50% - 50vw);
+  padding-inline: 0;
+}
+
+// ---- Top padding scale -----------------------------------------------------
+.alfa-banner--pt-none { padding-block-start: 0; }
+.alfa-banner--pt-sm   { padding-block-start: 0.75rem; }
+.alfa-banner--pt-md   { padding-block-start: 1.5rem; }
+.alfa-banner--pt-lg   { padding-block-start: clamp(2rem, 5vw, 3.5rem); }
+
+.alfa-banner__frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--color-surface-2);
+}
+
+// ---- Corner style ----------------------------------------------------------
+.alfa-banner--rounded .alfa-banner__frame { border-radius: var(--radius-xl); }
+.alfa-banner--sharp   .alfa-banner__frame { border-radius: 0; }
+// A full-width + rounded banner keeps rounded corners; full-width + sharp is
+// truly edge-to-edge (common for hero strips).
+
+// ---- Height scale ----------------------------------------------------------
+.alfa-banner--h-sm .alfa-banner__frame { aspect-ratio: 16 / 5; }
+.alfa-banner--h-md .alfa-banner__frame { aspect-ratio: 16 / 7; }
+.alfa-banner--h-lg .alfa-banner__frame { aspect-ratio: 16 / 9; }
+@media (max-width: 640px) {
+  .alfa-banner--h-sm .alfa-banner__frame,
+  .alfa-banner--h-md .alfa-banner__frame,
+  .alfa-banner--h-lg .alfa-banner__frame { aspect-ratio: 3 / 2; }
+}
+
+.alfa-banner__img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform var(--dur-slow) var(--ease-friendly);
+}
+.alfa-banner__frame:hover .alfa-banner__img { transform: scale(1.04); }
+
+// Readability overlay (only when there is text)
+.alfa-banner__frame.has-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(10,9,15,.55), transparent 65%);
+}
+
+.alfa-banner__content {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: 2;
+  padding-block: clamp(1.25rem, 4vw, 2.5rem);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.alfa-banner__eyebrow { font-weight: 700; font-size: 0.8rem; letter-spacing: .04em; opacity: .9; }
+.alfa-banner__title { color: #fff; margin: 0; font-size: clamp(1.4rem, 4vw, 2.6rem); }
+.alfa-banner__sub { margin: 0; max-width: 48ch; opacity: .92; font-size: clamp(.9rem, 2vw, 1.1rem); }
+.alfa-banner__cta { margin-block-start: 0.5rem; }
+
+[aria-disabled="true"] { cursor: default; }

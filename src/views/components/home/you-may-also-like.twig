@@ -1,0 +1,30 @@
+{#
+  you-may-also-like.twig — horizontal scroll-snap product carousel (no library).
+  Products come from: `products` (when included from a page, e.g. PDP related),
+  else `component.products` (home builder component). Reuses product-card.
+#}
+{% set list = products | default(component.products) | default([]) %}
+{% set heading = title | default(component.title) | default('قد يعجبك أيضاً') %}
+{% if list | length %}
+<section class="section container" aria-labelledby="ymal-title" data-reveal>
+  <div class="section__head">
+    <h2 class="section__title" id="ymal-title">{{ heading }}</h2>
+    <div class="carousel__nav" aria-hidden="true">
+      <button type="button" class="btn-icon glass" data-carousel-prev aria-label="{{ trans('common.elements.previous') | default('السابق') }}">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="btn-icon glass" data-carousel-next aria-label="{{ trans('common.elements.next') | default('التالي') }}">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="carousel" data-carousel role="list">
+    {% for product in list %}
+      <div role="listitem">
+        {% include 'components.product-card' with { product: product } %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

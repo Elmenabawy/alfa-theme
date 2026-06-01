@@ -1,0 +1,83 @@
+// ============================================================================
+//  category-links.scss — circular/squircle category strip. Scroll-snaps on
+//  mobile, wraps/centres on desktop. Gradient ring on hover; image zooms.
+// ============================================================================
+
+.cat-links__track {
+  list-style: none;
+  margin: 0; padding: 0 0 0.5rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 88px;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+.cat-links__track > * { scroll-snap-align: start; }
+
+// Desktop: let them wrap and centre instead of scrolling.
+@media (min-width: 768px) {
+  .cat-links__track {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    justify-items: center;
+    overflow: visible;
+  }
+}
+
+.cat-links__item a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 88px;
+  @media (min-width: 768px) { width: 96px; }
+}
+
+.cat-links__media {
+  position: relative;
+  width: 88px; height: 88px;
+  @media (min-width: 768px) { width: 96px; height: 96px; }
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  isolation: isolate;
+  transition: transform var(--dur-fast) var(--ease-friendly), box-shadow var(--dur-fast) var(--ease-friendly);
+
+  img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-friendly); }
+
+  // Gradient ring on hover
+  &::after {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: var(--gradient-brand);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-friendly);
+  }
+}
+.cat-links--circle   .cat-links__media { border-radius: var(--radius-pill); }
+.cat-links--squircle .cat-links__media { border-radius: var(--radius-lg); }
+
+.cat-links__item a:hover .cat-links__media,
+.cat-links__item a:focus-visible .cat-links__media { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.cat-links__item a:hover .cat-links__media img { transform: scale(1.08); }
+.cat-links__item a:hover .cat-links__media::after { opacity: 1; }
+
+.cat-links__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.25;
+  // clamp to 2 lines so the row never jitters
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}

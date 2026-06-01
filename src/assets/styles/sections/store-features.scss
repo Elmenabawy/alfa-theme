@@ -1,0 +1,78 @@
+// ============================================================================
+//  store-features.scss — animated feature cards. Entrance is the shared
+//  [data-reveal] stagger; icons have a continuous gentle float + a hover pop
+//  with a gradient ring that sweeps in. All motion disabled under reduced motion.
+// ============================================================================
+
+.store-features__grid {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(2, 1fr);          // 360px: 2-up
+}
+@media (min-width: 768px) { .store-features__grid { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; } }
+
+.sf-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  border-radius: var(--radius-lg);
+  transition: transform var(--dur-base) var(--ease-friendly),
+              box-shadow var(--dur-base) var(--ease-friendly);
+  will-change: transform;
+  &:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+}
+
+.sf-card__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px; height: 64px;
+  border-radius: var(--radius-pill);
+  color: var(--brand-primary);
+  background: color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  // Continuous gentle float so the strip feels alive.
+  animation: sf-float 3.4s var(--ease-friendly) infinite;
+  animation-delay: calc(var(--reveal-i, 0) * 220ms);   // desync each card
+  transition: transform var(--dur-fast) var(--ease-friendly), background var(--dur-base) var(--ease-friendly);
+  svg { width: 30px; height: 30px; transition: transform var(--dur-fast) var(--ease-friendly); }
+
+  // Gradient ring that sweeps in on hover.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    padding: 3px;
+    background: var(--gradient-brand);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transform: scale(0.8) rotate(-25deg);
+    transition: opacity var(--dur-base) var(--ease-friendly), transform var(--dur-base) var(--ease-friendly);
+  }
+}
+
+.sf-card:hover .sf-card__icon {
+  background: color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  &::before { opacity: 1; transform: scale(1) rotate(0); }
+  svg { transform: scale(1.12); }
+}
+
+.sf-card__title { font-size: 0.98rem; }
+.sf-card__text  { font-size: 0.82rem; color: var(--color-text-muted); }
+
+@keyframes sf-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-card__icon { animation: none; }
+  .sf-card:hover .sf-card__icon::before { transition: none; }
+}
