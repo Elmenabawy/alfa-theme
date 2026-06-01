@@ -162,7 +162,7 @@
     ],
     "components": [
         {
-            "key": "9a1f0c10-1111-4aaa-9001-alfahero0001",
+            "key": "27ef80ba-c5f0-4d46-a3e6-74de31dbcf30",
             "title": { "en": "Hero", "ar": "الواجهة الرئيسية" },
             "icon": "sicon-image",
             "path": "home.hero",
@@ -178,7 +178,7 @@
             ]
         },
         {
-            "key": "9a1f0c10-2222-4aaa-9002-alfabanner001",
+            "key": "5a77b9df-c77d-4aab-9344-7e06de9051e4",
             "title": { "en": "Banner", "ar": "بانر ترويجي" },
             "icon": "sicon-image-carousel",
             "path": "home.banner",
@@ -193,35 +193,35 @@
                 { "type": "boolean", "format": "switch", "id": "overlay", "icon": "sicon-toggle-off", "label": "طبقة تظليل للنص", "value": true, "selected": true, "required": false },
                 {
                     "id": "top_padding", "type": "items", "format": "dropdown-list", "label": "المسافة العلوية", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "متوسطة", "value": "md", "key": "tp-md-0001" } ],
+                    "selected": [ { "label": "متوسطة", "value": "md", "key": "c7ac01ae-0ae2-431a-8682-288cf8dcf609" } ],
                     "options": [
-                        { "label": "بدون", "value": "none", "key": "tp-none-001" },
-                        { "label": "صغيرة", "value": "sm", "key": "tp-sm-0001" },
-                        { "label": "متوسطة", "value": "md", "key": "tp-md-0001" },
-                        { "label": "كبيرة", "value": "lg", "key": "tp-lg-0001" }
+                        { "label": "بدون", "value": "none", "key": "b6ba1f12-8c9c-47bd-a194-86fbd031e3b0" },
+                        { "label": "صغيرة", "value": "sm", "key": "cae202c9-fb68-4aca-acd8-246e0c8773cf" },
+                        { "label": "متوسطة", "value": "md", "key": "c7ac01ae-0ae2-431a-8682-288cf8dcf609" },
+                        { "label": "كبيرة", "value": "lg", "key": "89b2ba6e-c533-4dd9-a637-b26f23fb6a89" }
                     ]
                 },
                 {
                     "id": "corners", "type": "items", "format": "dropdown-list", "label": "الزوايا", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "دائرية", "value": "rounded", "key": "cr-rnd-001" } ],
+                    "selected": [ { "label": "دائرية", "value": "rounded", "key": "f11c648d-4f62-4370-973c-bbf4c7ffb919" } ],
                     "options": [
-                        { "label": "دائرية", "value": "rounded", "key": "cr-rnd-001" },
-                        { "label": "حادة", "value": "sharp", "key": "cr-shp-001" }
+                        { "label": "دائرية", "value": "rounded", "key": "f11c648d-4f62-4370-973c-bbf4c7ffb919" },
+                        { "label": "حادة", "value": "sharp", "key": "071e8645-28d8-4469-b8ae-0311640c07e9" }
                     ]
                 },
                 {
                     "id": "height", "type": "items", "format": "dropdown-list", "label": "الارتفاع", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "متوسط", "value": "md", "key": "h-md-0001" } ],
+                    "selected": [ { "label": "متوسط", "value": "md", "key": "da54028b-b6be-4425-af08-e73a1801b6d4" } ],
                     "options": [
-                        { "label": "منخفض", "value": "sm", "key": "h-sm-0001" },
-                        { "label": "متوسط", "value": "md", "key": "h-md-0001" },
-                        { "label": "مرتفع", "value": "lg", "key": "h-lg-0001" }
+                        { "label": "منخفض", "value": "sm", "key": "d24b38c2-10bc-41da-a3cf-0525880c5c75" },
+                        { "label": "متوسط", "value": "md", "key": "da54028b-b6be-4425-af08-e73a1801b6d4" },
+                        { "label": "مرتفع", "value": "lg", "key": "aa2b0d9f-0842-4d8a-9d1e-df214063b386" }
                     ]
                 }
             ]
         },
         {
-            "key": "9a1f0c10-3333-4aaa-9003-alfacatlinks0",
+            "key": "a32635e3-a4a7-48ed-bd35-4b06c1f51627",
             "title": { "en": "Category Links", "ar": "روابط الفئات" },
             "icon": "sicon-layout-grid-rearrange",
             "path": "home.category-links",
@@ -229,10 +229,10 @@
                 { "type": "string", "format": "text", "id": "title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": "تسوّق حسب الفئة", "required": false },
                 {
                     "id": "shape", "type": "items", "format": "dropdown-list", "label": "شكل الصورة", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "دائري", "value": "circle", "key": "sh-cir-001" } ],
+                    "selected": [ { "label": "دائري", "value": "circle", "key": "4eac6a2e-33a0-4b9d-a44c-be7b020f141b" } ],
                     "options": [
-                        { "label": "دائري", "value": "circle", "key": "sh-cir-001" },
-                        { "label": "مربع بحواف", "value": "squircle", "key": "sh-sqr-001" }
+                        { "label": "دائري", "value": "circle", "key": "4eac6a2e-33a0-4b9d-a44c-be7b020f141b" },
+                        { "label": "مربع بحواف", "value": "squircle", "key": "41dc1240-d7c7-4882-97bc-6f59bfdb2a7b" }
                     ]
                 },
                 { "type": "boolean", "format": "switch", "id": "show_cats", "icon": "sicon-toggle-off", "label": "عرض فئات المتجر", "description": "بدل الروابط اليدوية، اعرض تصنيفات المتجر مع صورها", "value": false, "selected": false, "required": false },
@@ -259,7 +259,7 @@
             ]
         },
         {
-            "key": "9a1f0c10-4444-4aaa-9004-alfafeatures0",
+            "key": "77a4fc96-5a9c-4ea3-b666-da0cbfd1b66d",
             "title": { "en": "Store Features", "ar": "مزايا المتجر" },
             "icon": "sicon-bolt-alt",
             "path": "home.store-features",
@@ -276,12 +276,12 @@
                     "fields": [
                         {
                             "id": "features.icon", "type": "items", "format": "dropdown-list", "label": "الأيقونة", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                            "selected": [ { "label": "شاحنة", "value": "truck", "key": "fi-truck-01" } ],
+                            "selected": [ { "label": "شاحنة", "value": "truck", "key": "af7bd831-00fb-4a0f-9012-9319b9387c2a" } ],
                             "options": [
-                                { "label": "شاحنة", "value": "truck", "key": "fi-truck-01" },
-                                { "label": "درع", "value": "shield", "key": "fi-shield-1" },
-                                { "label": "إرجاع", "value": "refresh", "key": "fi-refresh-1" },
-                                { "label": "دعم", "value": "headset", "key": "fi-headset-1" }
+                                { "label": "شاحنة", "value": "truck", "key": "af7bd831-00fb-4a0f-9012-9319b9387c2a" },
+                                { "label": "درع", "value": "shield", "key": "b94a54fa-d70d-4ceb-a47e-0e0e3608fa53" },
+                                { "label": "إرجاع", "value": "refresh", "key": "2a270076-ff8a-402b-8a4f-86cd5bbaca72" },
+                                { "label": "دعم", "value": "headset", "key": "63bd5311-53a4-4d48-90c1-daf8e0c361ff" }
                             ]
                         },
                         { "type": "string", "format": "text", "id": "features.title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": null, "required": false, "maxLength": 40 },
@@ -291,7 +291,7 @@
             ]
         },
         {
-            "key": "9a1f0c10-5555-4aaa-9005-alfastoremap0",
+            "key": "f29bd624-d43e-42c0-b01b-53ae6c33ef93",
             "title": { "en": "Store Map", "ar": "خريطة الموقع" },
             "icon": "sicon-location",
             "path": "home.store-map",
@@ -304,11 +304,11 @@
                 { "type": "string", "format": "text", "id": "phone", "icon": "sicon-phone", "label": "هاتف", "value": null, "required": false },
                 {
                     "id": "height", "type": "items", "format": "dropdown-list", "label": "ارتفاع الخريطة", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "متوسط", "value": "md", "key": "mh-md-001" } ],
+                    "selected": [ { "label": "متوسط", "value": "md", "key": "359e3983-74af-4852-a0ee-4d85594c1aec" } ],
                     "options": [
-                        { "label": "منخفض", "value": "sm", "key": "mh-sm-001" },
-                        { "label": "متوسط", "value": "md", "key": "mh-md-001" },
-                        { "label": "مرتفع", "value": "lg", "key": "mh-lg-001" }
+                        { "label": "منخفض", "value": "sm", "key": "c87c3fc6-8486-45a3-81da-f10572122dc4" },
+                        { "label": "متوسط", "value": "md", "key": "359e3983-74af-4852-a0ee-4d85594c1aec" },
+                        { "label": "مرتفع", "value": "lg", "key": "206b0bd3-8ba0-464a-a0f4-fb8d0a4bc61a" }
                     ]
                 }
             ]
