@@ -1,165 +1,169 @@
 {
-  "$schema": "https://cdn.salla.network/schemas/twilight.json",
-  "version": "1.0.0",
-  "name": "Alfa",
-  "author": {
-    "name": "Alfa Theme",
-    "email": "affiliateunion1@gmail.com"
-  },
-  "description": "Premium RTL-first Salla storefront theme — glassmorphism, CRO-baked, performance-budgeted.",
-  "support": {
-    "rtl": true,
-    "ltr": true,
-    "dark_mode": true
-  },
-  "fonts": [
-    {
-      "name": "Tajawal",
-      "type": "google",
-      "weights": [400, 500, 700, 800]
+    "name": {
+        "ar": "ألفا",
+        "en": "Alfa"
     },
-    {
-      "name": "IBM Plex Sans Arabic",
-      "type": "google",
-      "weights": [400, 500, 600, 700]
-    }
-  ],
-  "settings": [
-    {
-      "type": "group",
-      "label": "الهوية البصرية | Brand & Colors",
-      "fields": [
+    "repository": "https://github.com/Elmenabawy/alfa-theme",
+    "author_email": "affiliateunion1@gmail.com",
+    "features": [
+        "color",
+        "fonts",
+        "breadcrumb",
+        "unite-cards-height"
+    ],
+    "settings": [
         {
-          "id": "color_primary",
-          "type": "color",
-          "label": "اللون الأساسي | Primary",
-          "format": "hex",
-          "value": "#6d28d9"
+            "type": "static",
+            "format": "title",
+            "id": "static-announcement-title",
+            "value": "<div class='rounded-lg' style='background-color:#6d28d9;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#fff;font-size:15px;font-weight:bold;'>شريط الإعلان | Announcement Bar</h6></div>",
+            "variant": "h6"
         },
         {
-          "id": "color_secondary",
-          "type": "color",
-          "label": "اللون الثانوي | Secondary",
-          "format": "hex",
-          "value": "#db2777"
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "announcement_enabled",
+            "label": "تفعيل شريط الإعلان",
+            "description": null,
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
         },
         {
-          "id": "color_accent",
-          "type": "color",
-          "label": "لون التمييز | Accent",
-          "format": "hex",
-          "value": "#f59e0b"
+            "type": "string",
+            "icon": "sicon-format-text-alt",
+            "id": "announcement_text",
+            "label": "نص الإعلان",
+            "format": "text",
+            "multilanguage": true,
+            "required": false,
+            "value": "شحن مجاني للطلبات فوق 200 ر.س 🚚",
+            "placeholder": "اكتب نص الإعلان هنا"
         },
         {
-          "id": "gradient_angle",
-          "type": "number",
-          "label": "زاوية التدرج | Gradient angle (deg)",
-          "value": 135
+            "type": "string",
+            "icon": "sicon-clock",
+            "id": "announcement_countdown_to",
+            "label": "عدّاد تنازلي حتى (ISO date) — اختياري",
+            "description": "مثال: 2026-07-01T00:00:00",
+            "format": "text",
+            "required": false,
+            "value": "",
+            "placeholder": "2026-07-01T00:00:00"
         },
         {
-          "id": "font_display",
-          "type": "select",
-          "label": "خط العناوين | Display font",
-          "value": "Tajawal",
-          "options": [
-            { "label": "Tajawal", "value": "Tajawal" },
-            { "label": "IBM Plex Sans Arabic", "value": "IBM Plex Sans Arabic" }
-          ]
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "announcement_dismissable",
+            "label": "السماح بإغلاق الإعلان",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
         },
         {
-          "id": "enable_dark_mode_toggle",
-          "type": "boolean",
-          "label": "إظهار زر الوضع الليلي | Show dark-mode toggle",
-          "value": true
+            "type": "static",
+            "format": "line",
+            "id": "static-line-cro"
+        },
+        {
+            "type": "static",
+            "format": "title",
+            "id": "static-cro-title",
+            "value": "<div class='rounded-lg' style='background-color:#db2777;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#fff;font-size:15px;font-weight:bold;'>ميزات رفع التحويل | CRO</h6></div>",
+            "variant": "h6"
+        },
+        {
+            "type": "number",
+            "icon": "sicon-pencil-ruler",
+            "id": "free_shipping_threshold",
+            "label": "حد الشحن المجاني (ر.س)",
+            "description": "يظهر شريط التقدّم نحو الشحن المجاني في السلة وصفحة المنتج",
+            "format": "integer",
+            "required": false,
+            "value": 200,
+            "minimum": 0,
+            "maximum": 100000
+        },
+        {
+            "type": "number",
+            "icon": "sicon-pencil-ruler",
+            "id": "low_stock_threshold",
+            "label": "حد تنبيه قرب النفاد",
+            "description": "يظهر شارة \"بقي X فقط\" عندما تقل الكمية عن هذا الرقم",
+            "format": "integer",
+            "required": false,
+            "value": 5,
+            "minimum": 0,
+            "maximum": 100
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_social_proof",
+            "label": "إظهار \"شاهده X شخص خلال الساعة\"",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_exit_intent",
+            "label": "تفعيل نافذة نية الخروج",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "string",
+            "icon": "sicon-tag",
+            "id": "exit_intent_coupon",
+            "label": "كود الخصم لنافذة الخروج",
+            "format": "text",
+            "required": false,
+            "value": "WELCOME10",
+            "placeholder": "WELCOME10"
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_recently_viewed",
+            "label": "إظهار شريط \"شاهدته مؤخراً\"",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "number",
+            "icon": "sicon-pencil-ruler",
+            "id": "gift_wrap_price",
+            "label": "سعر تغليف الهدية (ر.س)",
+            "format": "integer",
+            "required": false,
+            "value": 15,
+            "minimum": 0,
+            "maximum": 1000
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_dark_mode_toggle",
+            "label": "إظهار زر الوضع الليلي في الهيدر",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
         }
-      ]
-    },
-    {
-      "type": "group",
-      "label": "شريط الإعلان | Announcement Bar",
-      "fields": [
-        {
-          "id": "announcement_enabled",
-          "type": "boolean",
-          "label": "تفعيل | Enabled",
-          "value": true
-        },
-        {
-          "id": "announcement_text",
-          "type": "string",
-          "label": "النص | Text",
-          "value": "شحن مجاني للطلبات فوق 200 ر.س 🚚"
-        },
-        {
-          "id": "announcement_countdown_to",
-          "type": "string",
-          "label": "عدّاد تنازلي حتى (ISO date, اختياري) | Countdown to (ISO, optional)",
-          "value": ""
-        },
-        {
-          "id": "announcement_dismissable",
-          "type": "boolean",
-          "label": "قابل للإغلاق | Dismissable",
-          "value": true
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": "ميزات رفع التحويل | CRO Features",
-      "fields": [
-        {
-          "id": "free_shipping_threshold",
-          "type": "number",
-          "label": "حد الشحن المجاني (ر.س) | Free-shipping threshold",
-          "value": 200
-        },
-        {
-          "id": "low_stock_threshold",
-          "type": "number",
-          "label": "حد تنبيه قرب النفاد | Low-stock badge under",
-          "value": 5
-        },
-        {
-          "id": "enable_social_proof",
-          "type": "boolean",
-          "label": "إظهار \"شاهده X شخص\" | Show viewers social proof",
-          "value": true
-        },
-        {
-          "id": "enable_exit_intent",
-          "type": "boolean",
-          "label": "تفعيل نافذة نية الخروج | Enable exit-intent modal",
-          "value": true
-        },
-        {
-          "id": "exit_intent_coupon",
-          "type": "string",
-          "label": "كود الخصم للخروج | Exit-intent coupon code",
-          "value": "WELCOME10"
-        },
-        {
-          "id": "enable_recently_viewed",
-          "type": "boolean",
-          "label": "إظهار شريط \"شاهدته مؤخراً\" | Show recently-viewed",
-          "value": true
-        },
-        {
-          "id": "gift_wrap_price",
-          "type": "number",
-          "label": "سعر تغليف الهدية (ر.س) | Gift-wrap price",
-          "value": 15
-        }
-      ]
+    ],
+    "components": [],
+    "support_url": "https://salla.com/",
+    "description": {
+        "ar": "ثيم عصري فاخر بواجهة عربية أولاً، بتأثيرات زجاجية ومزايا رفع تحويل مدمجة وأداء عالٍ.",
+        "en": "A premium, RTL-first storefront theme with glassmorphism, baked-in CRO features, and a strict performance budget."
     }
-  ],
-  "components": {
-    "home": {
-      "sections": [
-        { "key": "hero", "path": "partials.home.hero", "label": "الواجهة الرئيسية | Hero" },
-        { "key": "featured", "path": "partials.home.featured-collections", "label": "المجموعات المميزة | Featured collections" },
-        { "key": "you-may-like", "path": "partials.home.you-may-also-like", "label": "قد يعجبك أيضاً | You may also like" }
-      ]
-    }
-  }
 }
