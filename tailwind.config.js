@@ -12,8 +12,8 @@
 module.exports = {
   darkMode: ['class', '[data-theme="dark"]'],
   content: [
-    './src/**/*.twig',
-    './src/**/*.js',
+    './src/views/**/*.twig',
+    './src/assets/js/**/*.js',
     './twilight.json',
   ],
   theme: {
@@ -113,5 +113,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 };

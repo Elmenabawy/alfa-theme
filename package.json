@@ -3,18 +3,37 @@
   "version": "1.0.0",
   "description": "Premium RTL-first Salla Twilight storefront theme.",
   "private": true,
-  "type": "module",
   "scripts": {
+    "production": "webpack --mode production",
+    "prod": "webpack --mode production",
+    "development": "webpack --mode development",
+    "watch": "webpack --mode development --watch",
     "css:build": "node scripts/build-css.mjs",
-    "css:watch": "node scripts/build-css.mjs --watch",
-    "build": "npm run css:build",
-    "preview": "salla theme preview",
-    "push": "npm run build && salla theme push"
+    "css:watch": "node scripts/build-css.mjs --watch"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.6"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "sass": "^1.77.0",
-    "tailwindcss": "^3.4.4"
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-runtime": "^7.28.0",
+    "@babel/preset-env": "^7.29.2",
+    "@tailwindcss/forms": "^0.5.11",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^6.5.0",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "mini-css-extract-plugin": "^2.10.0",
+    "postcss": "^8.5.6",
+    "postcss-import": "^16.1.1",
+    "postcss-loader": "^8.2.0",
+    "postcss-nesting": "^12.1.5",
+    "postcss-preset-env": "^8.0.1",
+    "sass": "^1.99.0",
+    "sass-loader": "^16.0.6",
+    "tailwindcss": "^3.4.19",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^5.0.1"
   }
 }

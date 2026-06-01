@@ -81,7 +81,7 @@
   {% endif %}
 
   {% hook 'body:end' %}
-  <script type="module" src="{{ 'app.js' | asset }}"></script>
+  <script defer src="{{ 'app.js' | asset }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>
