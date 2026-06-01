@@ -1,0 +1,7 @@
+// Tailwind's three layers, isolated into their own module so app.scss can
+// @use it first — this keeps Tailwind's preflight (base) reset emitting BEFORE
+// our base.scss reset, while utilities still load ahead of component CSS.
+// Sass passes these unknown at-rules through untouched for Tailwind to expand.
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

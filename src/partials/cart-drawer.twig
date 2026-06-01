@@ -1,0 +1,78 @@
+{#
+  cart-drawer.twig — global slide-in cart. Glass background, free-shipping
+  progress bar at top, line items with animated quantity steppers, gift-wrap +
+  FBT upsell at the bottom. Slides from the inline-end edge (left in RTL,
+  right in LTR). Items are rendered + kept in sync by free-shipping-bar.js /
+  sticky-cart.js listening to salla.cart.event.onUpdated — we never mutate the
+  cart by hand.
+#}
+<div class="drawer-overlay" data-cart-overlay aria-hidden="true"></div>
+
+<aside
+  class="drawer"
+  data-cart-drawer
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cart-drawer-title"
+  data-open="false"
+  hidden
+>
+  <header class="drawer__head">
+    <h2 class="drawer__title" id="cart-drawer-title">سلّة التسوّق</h2>
+    <button type="button" class="btn-icon" data-cart-close aria-label="إغلاق السلة">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  {# ---- Free-shipping progress bar ---- #}
+  <div class="ship-bar" data-ship-bar>
+    <p class="ship-bar__msg" data-ship-msg aria-live="polite">أضف منتجات للحصول على شحن مجاني.</p>
+    <div class="ship-bar__track"><div class="ship-bar__fill" data-ship-fill></div></div>
+  </div>
+
+  {# ---- Body: line items, or empty state ---- #}
+  <div class="drawer__body" data-cart-body>
+    {# Empty state (shown when cart is empty; hidden once items exist) #}
+    <div class="cart-empty" data-cart-empty>
+      {% include 'partials.empty' with {
+        title: 'سلّتك فارغة',
+        message: 'لم تُضِف أي منتجات بعد. لنبدأ التسوّق!',
+        cta_label: 'تصفّح المنتجات',
+        cta_url: salla.url.get('products'),
+        image: 'assets/images/empty-cart.svg' | asset
+      } %}
+    </div>
+
+    {# Line items injected here by JS from salla.cart state. Skeletons first. #}
+    <ul class="cart-lines" data-cart-lines hidden>
+      {% for i in 1..2 %}
+        <li class="cart-line" aria-hidden="true">
+          <div class="skeleton cart-line__img"></div>
+          <div style="flex:1"><div class="skeleton skeleton--text" style="width:80%"></div><div class="skeleton skeleton--text" style="width:40%"></div></div>
+          <div class="skeleton skeleton--pill" style="width:96px;height:32px"></div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {# ---- Upsell: gift wrap + frequently bought together ---- #}
+  <div class="drawer__upsells" data-cart-upsells hidden>
+    <div class="upsell">
+      <span class="upsell__img" style="display:grid;place-items:center;background:var(--color-surface)" aria-hidden="true">🎁</span>
+      <div style="flex:1">
+        <strong style="display:block;font-size:.88rem">أضف تغليف هدية</strong>
+        <span style="font-size:.8rem;color:var(--color-text-muted)" data-giftwrap-price></span>
+      </div>
+      <button type="button" class="btn btn--ghost" data-add-giftwrap style="padding-block:.5rem;padding-inline:1rem">إضافة</button>
+    </div>
+  </div>
+
+  {# ---- Footer: subtotal + checkout ---- #}
+  <footer class="drawer__foot" data-cart-foot hidden>
+    <div style="display:flex;justify-content:space-between;margin-block-end:.85rem;font-weight:800">
+      <span>الإجمالي</span>
+      <span data-cart-subtotal>0</span>
+    </div>
+    <a href="{{ salla.url.get('checkout') }}" class="btn btn--primary btn--block btn--lg">إتمام الطلب</a>
+  </footer>
+</aside>

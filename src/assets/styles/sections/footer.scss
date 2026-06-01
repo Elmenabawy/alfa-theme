@@ -1,0 +1,52 @@
+// ============================================================================
+//  footer.scss — mega footer: newsletter, link columns, payment icons,
+//  social, accessibility statement, store info.
+// ============================================================================
+
+.site-footer {
+  margin-block-start: 4rem;
+  background: var(--color-bg-subtle);
+  border-block-start: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.site-footer__inner { padding-block: 3rem 1.5rem; display: grid; gap: 2rem; }
+
+.footer-newsletter {
+  background: var(--gradient-brand);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  color: #fff;
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 768px) { .footer-newsletter { grid-template-columns: 1fr auto; align-items: center; } }
+.footer-newsletter h2 { color: #fff; margin: 0; }
+.newsletter-form { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.newsletter-form__input {
+  flex: 1;
+  min-width: 200px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 0.85rem 1.25rem;
+  font: inherit;
+  &::placeholder { color: rgba(255,255,255,0.8); }
+  &[aria-invalid="true"] { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.5); }
+}
+.newsletter-form__error { flex-basis: 100%; font-size: 0.82rem; color: #fff; min-height: 1.1em; }
+
+.footer-cols { display: grid; gap: 1.5rem; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) { .footer-cols { grid-template-columns: repeat(4, 1fr); } }
+.footer-col h3 { font-size: 0.95rem; margin-block-end: 0.75rem; }
+.footer-col a { display: block; padding-block: 0.3rem; color: var(--color-text-muted); font-size: 0.9rem; transition: color var(--dur-fast) var(--ease-friendly); &:hover { color: var(--color-text); } }
+
+.footer-bottom {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid var(--color-border);
+  font-size: 0.82rem; color: var(--color-text-muted);
+}
+.payment-icons { display: flex; gap: 0.5rem; align-items: center; }
+.payment-icons img { height: 24px; width: auto; opacity: 0.8; }
+.social-links { display: flex; gap: 0.4rem; }

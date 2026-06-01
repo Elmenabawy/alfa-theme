@@ -1,0 +1,45 @@
+{#
+  hero.twig — full-bleed hero. The LCP image is eager + fetchpriority="high"
+  and carries width/height so its box is reserved (protects LCP + CLS).
+  Headline words are wrapped in <span class="word"> for the staggered reveal.
+  Parallax is transform-only, driven by app.js, and disabled under reduced motion.
+#}
+{% set s = section.settings | default({}) %}
+{% set headline = s.title | default('أناقة تُلهم يومك') %}
+<section class="hero has-grain" data-parallax-scene>
+  <div class="hero__media">
+    <img
+      class="hero__img"
+      src="{{ s.image | default('assets/images/placeholder-product.svg' | asset) }}"
+      alt="{{ s.image_alt | default(headline) }}"
+      width="1600" height="900"
+      fetchpriority="high"
+      decoding="async"
+      data-parallax
+    >
+  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="container hero__content">
+    {% if s.eyebrow | default('مجموعة 2026') %}
+      <span class="hero__eyebrow">{{ s.eyebrow | default('مجموعة 2026') }}</span>
+    {% endif %}
+
+    <h1 class="hero__title" data-word-reveal>
+      {% for word in headline | split(' ') %}
+        <span class="word" style="--i: {{ loop.index0 }}">{{ word }}</span>{{ ' ' }}
+      {% endfor %}
+    </h1>
+
+    <p class="hero__sub">{{ s.subtitle | default('اكتشف تشكيلتنا الجديدة المصمّمة بعناية — جودة تدوم وتفاصيل تُحدث الفرق.') }}</p>
+
+    <div class="hero__cta">
+      <a href="{{ s.primary_url | default(salla.url.get('products')) }}" class="btn btn--primary btn--lg">
+        تسوّق الآن
+      </a>
+      <a href="{{ s.secondary_url | default(salla.url.get('pages.about')) }}" class="btn btn--ghost btn--lg">
+        اعرف المزيد
+      </a>
+    </div>
+  </div>
+</section>

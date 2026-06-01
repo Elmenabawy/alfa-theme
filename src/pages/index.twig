@@ -1,0 +1,24 @@
+{#
+  index.twig — home page. Extends master and renders the configured home
+  sections in dashboard order (twilight.json → components.home.sections), then
+  appends the localStorage-driven recently-viewed strip. Each section is a
+  self-contained partial so the merchant can reorder/remove from the dashboard.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+  {# Salla renders dashboard-ordered sections here when available… #}
+  {% if page.components is defined and page.components | length %}
+    {% for section in page.components %}
+      {% include section.path ignore missing with { section: section } %}
+    {% endfor %}
+  {% else %}
+    {# …otherwise a sensible default order. #}
+    {% include 'partials.home.hero' %}
+    {% include 'partials.home.featured-collections' %}
+    {% include 'partials.trust-strip' %}
+    {% include 'partials.home.you-may-also-like' %}
+  {% endif %}
+
+  {% include 'partials.recently-viewed' %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{
+  "name": "alfa-twilight-theme",
+  "version": "1.0.0",
+  "description": "Premium RTL-first Salla Twilight storefront theme.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "css:build": "node scripts/build-css.mjs",
+    "css:watch": "node scripts/build-css.mjs --watch",
+    "build": "npm run css:build",
+    "preview": "salla theme preview",
+    "push": "npm run build && salla theme push"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "sass": "^1.77.0",
+    "tailwindcss": "^3.4.4"
+  }
+}

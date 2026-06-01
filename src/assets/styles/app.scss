@@ -1,0 +1,50 @@
+// ============================================================================
+//  app.scss — style entry point. Order matters:
+//  1) Tailwind layers  2) tokens  3) base  4) components  5) sections.
+//  @use modules load once and in order; Tailwind layers come first so its
+//  preflight reset precedes our base.scss reset. The cross-cutting helpers at
+//  the bottom are this file's own rules and must stay after all @use rules.
+// ============================================================================
+
+@use "tailwind-layers";
+@use "tokens";
+@use "base";
+
+// Components
+@use "components/glass";
+@use "components/button";
+@use "components/card";
+@use "components/drawer";
+@use "components/skeleton";
+@use "components/modal";
+
+// Sections
+@use "sections/header";
+@use "sections/hero";
+@use "sections/featured";
+@use "sections/product-page";
+@use "sections/footer";
+
+// ---- Cross-cutting helpers -------------------------------------------------
+
+// Scroll-reveal: hidden until IntersectionObserver adds .is-visible (scroll-reveal.js).
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-slow) var(--ease-friendly),
+              transform var(--dur-slow) var(--ease-friendly);
+  transition-delay: calc(var(--reveal-i, 0) * 60ms);   // 60ms stagger per child
+  &.is-visible { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+
+// Section rhythm
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section__head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-block-end: 1.5rem; }
+.section__title { font-size: clamp(1.5rem, 4vw, 2.2rem); margin: 0; }
+.section__link { font-weight: 700; color: var(--brand-primary); white-space: nowrap; }
+
+// Lock body scroll while a drawer/modal is open (class added by JS).
+body.is-locked { overflow: hidden; }

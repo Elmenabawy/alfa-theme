@@ -1,0 +1,91 @@
+// ============================================================================
+//  header.scss — sticky glass header that intensifies on scroll + expanding
+//  search with autocomplete panel.
+// ============================================================================
+
+.site-header {
+  position: sticky;
+  inset-block-start: var(--announcement-h);
+  z-index: var(--z-header);
+  height: var(--header-h);
+  transition: box-shadow var(--dur-base) var(--ease-friendly),
+              background var(--dur-base) var(--ease-friendly);
+  // Base = light glass; .is-scrolled (toggled by app.js) = stronger + shadow.
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  border-block-end: 1px solid transparent;
+
+  &.is-scrolled {
+    background: var(--glass-bg-strong);
+    border-block-end-color: var(--glass-border);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.site-header__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.site-header__logo { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; }
+.site-header__logo span { background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.site-nav { display: none; }
+@media (min-width: 1024px) {
+  .site-nav { display: flex; align-items: center; gap: 0.25rem; margin-inline-start: 1rem; }
+  .site-nav a {
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background var(--dur-fast) var(--ease-friendly), color var(--dur-fast) var(--ease-friendly);
+    &:hover { background: var(--color-surface-2); }
+  }
+}
+
+.site-header__actions { margin-inline-start: auto; display: flex; align-items: center; gap: 0.25rem; }
+
+// ---- Expanding search ------------------------------------------------------
+.search { position: relative; }
+.search__field {
+  display: flex;
+  align-items: center;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: width var(--dur-base) var(--ease-friendly), opacity var(--dur-base) var(--ease-friendly);
+  .search.is-open & { width: min(420px, 60vw); opacity: 1; }
+}
+.search__input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: var(--radius-pill);
+  padding: 0.6rem 1rem;
+  font: inherit;
+}
+
+// Autocomplete results panel (glass)
+.search__results {
+  position: absolute;
+  inset-block-start: calc(100% + 0.5rem);
+  inset-inline-end: 0;
+  width: min(420px, 80vw);
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem;
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity var(--dur-fast) var(--ease-friendly), transform var(--dur-fast) var(--ease-friendly), visibility var(--dur-fast);
+  &[data-open="true"] { opacity: 1; visibility: visible; transform: translateY(0); }
+}
+.search__result { display: flex; align-items: center; gap: 0.75rem; padding: 0.55rem; border-radius: var(--radius-md); &:hover, &:focus-visible { background: var(--color-surface-2); } }
+.search__result img { width: 44px; height: 44px; border-radius: var(--radius-sm); object-fit: cover; }

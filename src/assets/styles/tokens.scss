@@ -1,0 +1,104 @@
+// ============================================================================
+//  tokens.scss — single source of truth for design tokens.
+//  Everything is a CSS custom property so (a) Tailwind can reference them,
+//  (b) the merchant's dashboard colors override them at runtime, and
+//  (c) dark mode is a token swap, not a restyle.
+//
+//  Merchant colors are injected by the layout as inline `--brand-*` vars
+//  (see master.twig). We fall back to sensible defaults here.
+// ============================================================================
+
+:root {
+  // ---- Brand (overridden at runtime by merchant settings) -----------------
+  --brand-primary:   var(--brand-primary-raw,   #6d28d9);
+  --brand-secondary: var(--brand-secondary-raw, #db2777);
+  --brand-accent:    var(--brand-accent-raw,    #f59e0b);
+  --gradient-angle:  var(--gradient-angle-raw, 135deg);
+
+  // ---- Semantic surfaces (light) ------------------------------------------
+  --color-bg:            #ffffff;
+  --color-bg-subtle:     #f7f7fb;
+  --color-surface:       #ffffff;
+  --color-surface-2:     #f3f4f8;
+  --color-text:          #14131a;
+  --color-text-muted:    #5b5966;
+  --color-border:        #e7e6ee;
+  --color-success:       #16a34a;
+  --color-danger:        #dc2626;
+  --color-sale:          #e11d48;
+
+  // ---- Glass layer --------------------------------------------------------
+  // Two tokens: the fill tint and the blur radius. Drawers/nav reuse these.
+  --glass-bg:            rgba(255, 255, 255, 0.62);
+  --glass-bg-strong:     rgba(255, 255, 255, 0.78);
+  --glass-border:        rgba(255, 255, 255, 0.55);
+  --glass-blur:          12px;
+
+  // ---- Gradients ----------------------------------------------------------
+  --gradient-brand: linear-gradient(
+    var(--gradient-angle),
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+  --gradient-accent: linear-gradient(
+    var(--gradient-angle),
+    var(--brand-secondary),
+    var(--brand-accent)
+  );
+
+  // ---- Radii --------------------------------------------------------------
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-xl:  32px;
+  --radius-pill: 999px;
+
+  // ---- Shadows ------------------------------------------------------------
+  // RTL note: shadows are kept symmetric (0 x-offset) so they never imply a
+  // light direction that breaks when the layout mirrors. Lift = bigger blur.
+  --shadow-sm:  0 1px 2px rgba(20, 19, 26, 0.06);
+  --shadow-md:  0 8px 24px -8px rgba(20, 19, 26, 0.16);
+  --shadow-lg:  0 18px 48px -12px rgba(20, 19, 26, 0.24);
+  --shadow-glow: 0 12px 36px -8px color-mix(in srgb, var(--brand-primary) 45%, transparent);
+
+  // ---- Type ---------------------------------------------------------------
+  --font-display: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-body:    "IBM Plex Sans Arabic", "Tajawal", system-ui, sans-serif;
+
+  // ---- Motion -------------------------------------------------------------
+  --ease-friendly: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur-base: 260ms;
+  --dur-slow: 320ms;
+
+  // ---- Layout -------------------------------------------------------------
+  --header-h: 68px;
+  --announcement-h: 0px;            // set to bar height by JS when bar is shown
+  --container-max: 1280px;
+  --z-header: 60;
+  --z-drawer: 90;
+  --z-modal: 100;
+  --z-announcement: 70;
+}
+
+// ============================================================================
+//  Dark mode — token swap only. Activated by [data-theme="dark"] on <html>,
+//  which app.js sets from saved preference / prefers-color-scheme.
+// ============================================================================
+[data-theme="dark"] {
+  --color-bg:         #0c0b12;
+  --color-bg-subtle:  #121019;
+  --color-surface:    #16141f;
+  --color-surface-2:  #1f1c2b;
+  --color-text:       #f4f3f9;
+  --color-text-muted: #a8a4b8;
+  --color-border:     #2a2738;
+
+  --glass-bg:        rgba(22, 20, 31, 0.58);
+  --glass-bg-strong: rgba(22, 20, 31, 0.78);
+  --glass-border:    rgba(255, 255, 255, 0.10);
+
+  --shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md:  0 8px 24px -8px rgba(0, 0, 0, 0.55);
+  --shadow-lg:  0 18px 48px -12px rgba(0, 0, 0, 0.65);
+}

@@ -1,0 +1,97 @@
+{#
+  product-card.twig — reusable across home, category, carousels, quick-view.
+  Usage:  {% include 'partials.product-card' with { product: product } %}
+
+  Features: image zoom-on-hover, slide-up quick-add, wishlist heart, sale
+  ribbon, inline color swatches, low-stock counter, quick-view trigger.
+
+  CLS-safe: media has a fixed aspect-ratio box and every <img> carries
+  width/height. We use Salla's <salla-add-product-button> for the real add
+  flow (no hand-rolled cart calls).
+#}
+{% set low = theme.settings.low_stock_threshold | default(5) %}
+<article
+  class="product-card"
+  data-reveal
+  data-product-id="{{ product.id }}"
+  data-product='{{ { id: product.id, name: product.name, price: product.price, image: product.image.url, url: product.url } | json_encode }}'
+>
+  <div class="product-card__media">
+
+    {% if product.on_sale %}
+      <span class="product-card__ribbon">
+        {%- if product.discount_percentage -%}
+          خصم {{ product.discount_percentage }}%
+        {%- else -%}
+          تخفيض
+        {%- endif -%}
+      </span>
+    {% endif %}
+
+    {# Wishlist — aria-pressed reflects state; app.js syncs salla.wishlist / localStorage #}
+    <button
+      type="button"
+      class="product-card__wish"
+      data-wishlist-toggle
+      aria-pressed="false"
+      aria-label="أضف {{ product.name }} إلى المفضلة"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-9.3-9C1 7.5 3 4.5 6.2 4.5c2 0 3.2 1.2 3.8 2.2.6-1 1.8-2.2 3.8-2.2 3.2 0 5.2 3 3.5 6.5C19 15.5 12 20 12 20z"/></svg>
+    </button>
+
+    <a href="{{ product.url }}" class="product-card__link" aria-label="{{ product.name }}">
+      <img
+        class="product-card__img"
+        src="{{ product.image.url | default('assets/images/placeholder-product.svg' | asset) }}"
+        alt="{{ product.image.alt | default(product.name) }}"
+        width="400" height="400"
+        loading="lazy" decoding="async"
+      >
+    </a>
+
+    {# Quick-view (skips PDP for fast browse) #}
+    <button type="button" class="btn-icon glass" data-quick-view aria-label="عرض سريع لـ {{ product.name }}"
+            style="position:absolute; inset-block-start:.5rem; inset-inline-start:.5rem; z-index:2; width:40px; height:40px;">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+
+    {# Quick-add slides up on hover; real add handled by Salla web component #}
+    <div class="product-card__quickadd">
+      <salla-add-product-button
+        product-id="{{ product.id }}"
+        class="btn btn--primary btn--block"
+        {% if not product.is_available %}disabled{% endif %}
+      >
+        {{ product.is_available ? 'أضف للسلة' : 'نفد المخزون' }}
+      </salla-add-product-button>
+    </div>
+  </div>
+
+  <div class="product-card__body">
+    <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.name }}</a></h3>
+
+    <div class="product-card__price">
+      <span class="product-card__price-now">{{ product.price | money }}</span>
+      {% if product.on_sale %}
+        <span class="product-card__price-was">{{ product.regular_price | money }}</span>
+      {% endif %}
+    </div>
+
+    {# Inline color swatches (first variant option whose type is color) #}
+    {% if product.options %}
+      {% for option in product.options if option.type == 'color' %}
+        <div class="product-card__swatches" role="group" aria-label="الألوان المتوفرة">
+          {% for val in option.values | slice(0, 5) %}
+            <button type="button" class="swatch" style="background: {{ val.color | default('#ccc') }}"
+                    aria-pressed="{{ loop.first ? 'true' : 'false' }}" aria-label="{{ val.name }}"></button>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {# Low-stock urgency #}
+    {% if product.quantity is not null and product.quantity > 0 and product.quantity <= low %}
+      <span class="stock-badge">بقي {{ product.quantity }} فقط</span>
+    {% endif %}
+  </div>
+</article>

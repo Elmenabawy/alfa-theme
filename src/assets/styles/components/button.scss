@@ -1,0 +1,85 @@
+// ============================================================================
+//  button.scss — primary (gradient), ghost, and icon-only buttons.
+//  All lifts use transform/shadow only (never layout) and respect motion prefs.
+// ============================================================================
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding-block: 0.85rem;
+  padding-inline: 1.5rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease-friendly),
+              box-shadow var(--dur-fast) var(--ease-friendly),
+              background var(--dur-fast) var(--ease-friendly);
+  will-change: transform;
+
+  &:active { transform: translateY(0) scale(0.98); }
+  &[disabled], &[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+}
+
+.btn--primary {
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  &:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+  &:hover {
+    transform: translateY(-2px);
+    background: var(--color-surface-2);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.btn--block { width: 100%; }
+.btn--lg { padding-block: 1.05rem; font-size: 1.05rem; }
+
+// Icon-only buttons — always require an aria-label in markup.
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;            // ≥44px touch target (WCAG)
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid transparent;
+  transition: transform var(--dur-fast) var(--ease-friendly),
+              background var(--dur-fast) var(--ease-friendly);
+  &:hover { background: var(--color-surface-2); transform: translateY(-1px); }
+  svg { width: 22px; height: 22px; }
+}
+
+// Cart count badge that bounces when the count changes (class toggled by JS).
+.count-badge {
+  position: absolute;
+  inset-block-start: -4px;
+  inset-inline-end: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding-inline: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--gradient-accent);
+  border-radius: var(--radius-pill);
+  line-height: 1;
+  &.is-bumping { animation: bounce-badge var(--dur-base) var(--ease-friendly); }
+}
+@keyframes bounce-badge { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-4px); } }

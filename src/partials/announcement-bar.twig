@@ -1,0 +1,43 @@
+{#
+  announcement-bar.twig — fixed overlay bar (position:fixed) so it never pushes
+  page content → zero CLS. app.js measures it into --announcement-h and offsets
+  the body/header. Optional countdown + dismiss (remembered in localStorage).
+#}
+{% if theme.settings.announcement_enabled | default(true) %}
+<div
+  id="announcement-bar"
+  class="announcement glass-strong"
+  role="region"
+  aria-label="إعلان المتجر"
+  data-countdown="{{ theme.settings.announcement_countdown_to | default('') }}"
+  data-dismissable="{{ theme.settings.announcement_dismissable | default(true) ? 'true' : 'false' }}"
+  hidden
+>
+  <div class="container announcement__inner">
+    <p class="announcement__text">
+      {{ theme.settings.announcement_text | default('شحن مجاني للطلبات فوق 200 ر.س 🚚') }}
+      <span class="announcement__countdown" data-countdown-display hidden></span>
+    </p>
+    {% if theme.settings.announcement_dismissable | default(true) %}
+      <button type="button" class="announcement__close btn-icon" data-announcement-close aria-label="إغلاق الإعلان">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .announcement {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-announcement);
+    border-block-end: 1px solid var(--glass-border);
+  }
+  .announcement__inner { display: flex; align-items: center; justify-content: center; gap: 1rem; min-height: 40px; position: relative; }
+  .announcement__text { margin: 0; font-size: 0.85rem; font-weight: 600; text-align: center; }
+  .announcement__countdown { font-variant-numeric: tabular-nums; font-weight: 800; color: var(--brand-primary); margin-inline-start: 0.4rem; }
+  .announcement__close { position: absolute; inset-inline-end: 0; width: 32px; height: 32px; }
+  .announcement__close svg { width: 16px; height: 16px; }
+</style>
+{% endif %}

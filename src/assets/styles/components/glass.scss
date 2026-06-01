@@ -1,0 +1,41 @@
+// ============================================================================
+//  glass.scss — the glassmorphism layer reused by nav, drawers, cards, modals.
+//  One class, tokenized, with a graceful fallback when backdrop-filter is
+//  unsupported (older Firefox): we fall back to the stronger opaque tint.
+// ============================================================================
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+
+// Fallback: if the browser can't blur, don't show a see-through unreadable panel.
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass, .glass-strong { background: var(--glass-bg-strong); }
+  [data-theme="dark"] .glass,
+  [data-theme="dark"] .glass-strong { background: var(--color-surface); }
+}
+
+// Subtle grain overlay used on hero / dark panels. Applied as a ::before so it
+// never affects layout. Texture itself ships as images/noise.svg.
+.has-grain { position: relative; isolation: isolate; }
+.has-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("../images/noise.svg");
+  background-size: 180px 180px;
+  opacity: 0.06;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}

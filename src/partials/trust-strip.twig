@@ -1,0 +1,41 @@
+{#
+  trust-strip.twig — 4 glass trust cards (shipping, secure pay, returns,
+  support). Hover lift via transform only. Used under PDP add-to-cart and
+  can be dropped anywhere. Icons are decorative; the text label carries meaning.
+#}
+<section class="trust-strip" aria-label="ضمانات المتجر">
+  <ul class="trust-strip__grid">
+    {% set items = [
+      { t: 'شحن سريع', d: 'توصيل خلال 2-4 أيام', i: 'truck' },
+      { t: 'دفع آمن', d: 'حماية كاملة لبياناتك', i: 'lock' },
+      { t: 'إرجاع مجاني', d: 'خلال 14 يوماً', i: 'return' },
+      { t: 'دعم 24/7', d: 'نحن هنا دائماً', i: 'support' }
+    ] %}
+    {% for it in items %}
+      <li class="trust-card glass" data-reveal style="--reveal-i: {{ loop.index0 }}">
+        <span class="trust-card__icon" aria-hidden="true">
+          {% if it.i == 'truck' %}<svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="18" r="2" stroke="currentColor" stroke-width="2"/></svg>
+          {% elseif it.i == 'lock' %}<svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 10V8a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="2"/></svg>
+          {% elseif it.i == 'return' %}<svg viewBox="0 0 24 24" fill="none"><path d="M4 9h11a5 5 0 0 1 0 10H9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 5L3 9l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {% else %}<svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-2" stroke="currentColor" stroke-width="2"/><rect x="3" y="12" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="17" y="12" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="2"/></svg>{% endif %}
+        </span>
+        <div>
+          <strong class="trust-card__title">{{ it.t }}</strong>
+          <span class="trust-card__desc">{{ it.d }}</span>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<style>
+  .trust-strip__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 768px) { .trust-strip__grid { grid-template-columns: repeat(4, 1fr); } }
+  .trust-card { display: flex; align-items: center; gap: .75rem; padding: 1rem; border-radius: var(--radius-lg);
+    transition: transform var(--dur-fast) var(--ease-friendly), box-shadow var(--dur-fast) var(--ease-friendly); }
+  .trust-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .trust-card__icon { flex: 0 0 auto; width: 40px; height: 40px; display: grid; place-items: center; border-radius: var(--radius-md); background: color-mix(in srgb, var(--brand-primary) 12%, transparent); color: var(--brand-primary); }
+  .trust-card__icon svg { width: 22px; height: 22px; }
+  .trust-card__title { display: block; font-size: .9rem; }
+  .trust-card__desc { display: block; font-size: .78rem; color: var(--color-text-muted); }
+</style>

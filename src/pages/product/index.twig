@@ -1,0 +1,66 @@
+{#
+  product/index.twig — category / product listing page.
+  Glass filter bar, responsive product grid (reusing product-card), and a
+  recently-viewed strip. Empty result → friendly empty state. Quick-view works
+  from each card. Grid is 2-up at 360px, scaling to 4-up on desktop.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+<div class="container">
+  {# ---- Category header ---- #}
+  <header class="section" style="padding-block:2rem 1rem" data-reveal>
+    {% if category is defined %}
+      <h1 class="section__title">{{ category.name }}</h1>
+      {% if category.description %}<p style="color:var(--color-text-muted);max-width:60ch">{{ category.description }}</p>{% endif %}
+    {% else %}
+      <h1 class="section__title">كل المنتجات</h1>
+    {% endif %}
+  </header>
+
+  {# ---- Filter / sort bar (glass, sticky under header) ---- #}
+  <div class="glass" style="position:sticky; inset-block-start:calc(var(--header-h) + var(--announcement-h)); z-index:5;
+              display:flex; gap:.75rem; align-items:center; justify-content:space-between;
+              padding:.6rem 1rem; border-radius:var(--radius-pill); margin-block-end:1.5rem">
+    <span style="font-size:.85rem;color:var(--color-text-muted)">{{ products | length }} منتج</span>
+    <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem">
+      ترتيب:
+      <select class="search__input" style="padding-block:.45rem" aria-label="ترتيب المنتجات" data-sort>
+        <option value="">الأكثر رواجاً</option>
+        <option value="price-asc">السعر: الأقل أولاً</option>
+        <option value="price-desc">السعر: الأعلى أولاً</option>
+        <option value="latest">الأحدث</option>
+      </select>
+    </label>
+  </div>
+
+  {# ---- Grid ---- #}
+  {% if products | length %}
+    <div class="product-grid">
+      {% for product in products %}
+        {% include 'partials.product-card' with { product: product } %}
+      {% endfor %}
+    </div>
+
+    {# Salla handles pagination/infinite-scroll #}
+    {% if pagination is defined %}
+      <div style="margin-block:2rem;display:flex;justify-content:center">{{ pagination | raw }}</div>
+    {% endif %}
+  {% else %}
+    {% include 'partials.empty' with {
+      title: 'لا توجد منتجات',
+      message: 'لم نعثر على منتجات في هذا القسم حالياً. جرّب قسماً آخر.',
+      cta_label: 'تصفّح كل المنتجات',
+      cta_url: salla.url.get('products')
+    } %}
+  {% endif %}
+
+  {% include 'partials.recently-viewed' %}
+</div>
+
+<style>
+  .product-grid { display: grid; gap: .85rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 768px)  { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+  @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+</style>
+{% endblock %}

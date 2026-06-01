@@ -1,0 +1,71 @@
+// ============================================================================
+//  hero.scss — full-bleed hero with parallax product image, word-reveal
+//  headline, dual CTAs. LCP image is eager + fetchpriority high (in markup).
+// ============================================================================
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(520px, 86vh, 820px);
+  display: grid;
+  align-items: center;
+  background: var(--color-bg-subtle);
+}
+
+// Parallax layer — translated by app.js via --parallax (transform only, GPU).
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate3d(0, var(--parallax, 0), 0) scale(1.08);
+  will-change: transform;
+}
+// Readability scrim — uses logical gradient that flips automatically.
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to var(--scrim-dir, left),
+    color-mix(in srgb, var(--color-bg) 78%, transparent),
+    transparent 62%
+  );
+}
+[dir="rtl"] .hero { --scrim-dir: right; }
+[dir="ltr"] .hero { --scrim-dir: left; }
+
+.hero__content { position: relative; z-index: 2; max-width: 620px; padding-block: 3rem; }
+
+.hero__eyebrow {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--brand-primary);
+  margin-block-end: 0.75rem;
+}
+
+.hero__title {
+  font-size: clamp(2.2rem, 7vw, 4.2rem);
+  margin-block-end: 1rem;
+}
+// Each word wrapped in <span class="word"> by the template; staggered reveal.
+.hero__title .word {
+  display: inline-block;
+  animation: word-reveal var(--dur-slow) var(--ease-friendly) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+.hero__sub { font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--color-text-muted); margin-block-end: 1.75rem; }
+.hero__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__img { transform: scale(1.04); }     // no parallax translate
+  .hero__title .word { animation: none; }
+}
+@keyframes word-reveal { from { opacity: 0; transform: translateY(0.5em); } to { opacity: 1; transform: translateY(0); } }

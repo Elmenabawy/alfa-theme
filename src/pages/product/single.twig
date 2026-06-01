@@ -1,0 +1,208 @@
+{#
+  product/single.twig — Product Detail Page (PDP).
+  Layout: sticky gallery (desktop) + info column. Includes variant chips,
+  in-place hover zoom, social proof, low-stock urgency, free-ship sticky bar,
+  accordion description, reviews with summary bars + photo grid, trust strip,
+  mobile sticky add-to-cart, and a you-may-also-like carousel.
+
+  Real cart/variant/availability flows use Salla web components; we only own
+  presentation + the CRO chrome. The first gallery image is the LCP → eager +
+  fetchpriority high; the rest lazy. All images carry width/height.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+<div class="container">
+  <div class="pdp">
+
+    {# ============================ GALLERY ============================ #}
+    <div class="pdp__gallery" data-gallery>
+      <div class="pdp__thumbs" role="tablist" aria-label="صور المنتج">
+        {% for img in product.images %}
+          <button
+            type="button"
+            class="pdp__thumb"
+            role="tab"
+            data-thumb="{{ loop.index0 }}"
+            aria-current="{{ loop.first ? 'true' : 'false' }}"
+            aria-label="عرض الصورة {{ loop.index }}"
+          >
+            <img src="{{ img.url }}" alt="" width="64" height="64" loading="lazy" decoding="async">
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="pdp__stage" data-zoom>
+        {% for img in product.images %}
+          <img
+            data-stage="{{ loop.index0 }}"
+            src="{{ img.url }}"
+            alt="{{ img.alt | default(product.name) }}"
+            width="800" height="800"
+            {% if loop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+            decoding="async"
+            {% if not loop.first %}hidden{% endif %}
+          >
+        {% endfor %}
+      </div>
+    </div>
+
+    {# ============================ INFO ============================ #}
+    <div class="pdp__info">
+      <h1 class="pdp__title">{{ product.name }}</h1>
+
+      <div class="pdp__price">
+        <span class="pdp__price-now">{{ product.price | money }}</span>
+        {% if product.on_sale %}
+          <span class="pdp__price-was">{{ product.regular_price | money }}</span>
+        {% endif %}
+      </div>
+
+      {# Social proof (stub-driven; merchant wires real data in social-proof hook) #}
+      {% if theme.settings.enable_social_proof | default(true) %}
+        <p class="pdp__social-proof" data-social-proof aria-live="polite">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/></svg>
+          <span data-social-proof-text></span>
+        </p>
+      {% endif %}
+
+      {# Low-stock urgency #}
+      {% set low = theme.settings.low_stock_threshold | default(5) %}
+      {% if product.quantity is not null and product.quantity > 0 and product.quantity <= low %}
+        <p class="stock-badge" style="margin-block-end:1rem">بقي {{ product.quantity }} فقط — سارع بالطلب</p>
+      {% endif %}
+
+      {# ---- Variants as visual chips (Salla owns selection state) ---- #}
+      {% if product.options | length %}
+        <div class="variants">
+          <salla-product-options product-id="{{ product.id }}">
+            {% for option in product.options %}
+              <div class="variant" data-variant>
+                <span class="variant__label">{{ option.name }}</span>
+                <div class="chips" role="group" aria-label="{{ option.name }}">
+                  {% for val in option.values %}
+                    <button
+                      type="button"
+                      class="chip {{ option.type == 'color' ? 'chip--swatch' : '' }}"
+                      data-option-value="{{ val.id }}"
+                      aria-pressed="{{ loop.first ? 'true' : 'false' }}"
+                      {% if val.is_available is defined and not val.is_available %}disabled{% endif %}
+                      {% if option.type == 'color' %}style="background: {{ val.color | default('#ccc') }}"{% endif %}
+                      title="{{ val.name }}"
+                    >{{ option.type == 'color' ? '' : val.name }}</button>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </salla-product-options>
+        </div>
+      {% endif %}
+
+      {# ---- Free-shipping sticky bar (shown when under threshold) ---- #}
+      <div class="pdp-ship-bar" data-pdp-ship-bar hidden>
+        <span data-pdp-ship-text></span>
+      </div>
+
+      {# ---- Add to cart (Salla component) + wishlist ---- #}
+      <div style="display:flex; gap:.75rem; margin-block:1.25rem">
+        <salla-add-product-button
+          product-id="{{ product.id }}"
+          class="btn btn--primary btn--lg btn--block"
+          data-primary-add
+          {% if not product.is_available %}disabled{% endif %}
+        >
+          {{ product.is_available ? 'أضف إلى السلة' : 'نفد المخزون' }}
+        </salla-add-product-button>
+
+        <button type="button" class="btn-icon glass" data-wishlist-toggle aria-pressed="false"
+                aria-label="أضف للمفضلة" style="width:56px;height:56px;border-radius:var(--radius-lg)"
+                data-product='{{ { id: product.id, name: product.name, price: product.price, image: product.image.url, url: product.url } | json_encode }}'>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:24px;height:24px"><path d="M12 20s-7-4.5-9.3-9C1 7.5 3 4.5 6.2 4.5c2 0 3.2 1.2 3.8 2.2.6-1 1.8-2.2 3.8-2.2 3.2 0 5.2 3 3.5 6.5C19 15.5 12 20 12 20z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      {# Quick buy (express checkout) #}
+      <salla-quick-buy product-id="{{ product.id }}"></salla-quick-buy>
+
+      {# ---- Trust strip ---- #}
+      {% include 'partials.trust-strip' %}
+
+      {# ---- Accordion description ---- #}
+      <div class="accordion" style="margin-block-start:1.5rem">
+        {% set panels = [
+          { t: 'الوصف', c: product.description },
+          { t: 'المواصفات', c: product.specifications | default('—') },
+          { t: 'الشحن والإرجاع', c: 'شحن خلال 2-4 أيام. إرجاع مجاني خلال 14 يوماً.' }
+        ] %}
+        {% for p in panels %}
+          <div class="accordion__item">
+            <button type="button" class="accordion__btn" aria-expanded="{{ loop.first ? 'true' : 'false' }}" data-accordion>
+              {{ p.t }}
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="accordion__panel" {% if loop.first %}style="max-height:none"{% endif %}>
+              <div class="accordion__panel-inner">{{ p.c | raw }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {# ============================ REVIEWS ============================ #}
+  <section class="section" aria-labelledby="reviews-title" data-reveal>
+    <h2 class="section__title" id="reviews-title">التقييمات</h2>
+    <div class="reviews__summary">
+      <div>
+        <div class="reviews__score">{{ product.rating.average | default('4.8') }}</div>
+        <div aria-hidden="true" style="color:var(--brand-accent)">★★★★★</div>
+        <small style="color:var(--color-text-muted)">{{ product.rating.count | default(0) }} تقييم</small>
+      </div>
+      <div>
+        {% for star in 5..1 %}
+          {% set pct = product.rating.breakdown[star] | default((star == 5) ? 72 : (star == 4) ? 18 : 4) %}
+          <div class="review-bar">
+            <span>{{ star }} ★</span>
+            <span class="review-bar__track"><span class="review-bar__fill" style="width: {{ pct }}%"></span></span>
+            <span>{{ pct }}%</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {# Customer photo grid #}
+    {% if product.review_images | default([]) | length %}
+      <div class="reviews__photos">
+        {% for img in product.review_images %}
+          <img src="{{ img.url }}" alt="صورة من تقييم عميل" width="120" height="120" loading="lazy" decoding="async">
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {# Salla's native reviews component for the list + submission #}
+    <salla-rating-modal product-id="{{ product.id }}"></salla-rating-modal>
+  </section>
+
+  {# ============================ YOU MAY ALSO LIKE ============================ #}
+  {% include 'partials.home.you-may-also-like' with {
+    section: { settings: { title: 'منتجات مشابهة', products: product.related | default(salla.products.get({ limit: 10 })) } }
+  } %}
+</div>
+
+{# ---- Mobile sticky add-to-cart (appears after primary scrolls out) ---- #}
+<div class="sticky-cta glass-strong" data-sticky-cta>
+  <div style="flex:1; min-width:0">
+    <strong style="display:block; font-size:.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ product.name }}</strong>
+    <span style="font-weight:800">{{ product.price | money }}</span>
+  </div>
+  <salla-add-product-button product-id="{{ product.id }}" class="btn btn--primary" {% if not product.is_available %}disabled{% endif %}>
+    أضف للسلة
+  </salla-add-product-button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="application/json" id="pdp-product">
+  {{ { id: product.id, name: product.name, price: product.price, image: product.image.url, url: product.url } | json_encode | raw }}
+</script>
+{% endblock %}

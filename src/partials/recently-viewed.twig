@@ -1,0 +1,25 @@
+{#
+  recently-viewed.twig — localStorage-driven strip. Renders an empty,
+  skeleton-filled scroller server-side; recently-viewed.js hydrates it from
+  localStorage ('alfa:recently-viewed') and removes the section if empty.
+  Skeletons (not spinners) hold the layout so there is no shift on hydrate.
+#}
+{% if theme.settings.enable_recently_viewed | default(true) %}
+<section class="section container" aria-labelledby="rv-title" data-recently-viewed hidden>
+  <div class="section__head">
+    <h2 class="section__title" id="rv-title">شاهدته مؤخراً</h2>
+  </div>
+  <div class="carousel" data-rv-track role="list">
+    {# Skeleton placeholders; replaced by JS-built cards #}
+    {% for i in 1..4 %}
+      <div role="listitem" class="product-card" aria-hidden="true">
+        <div class="skeleton skeleton--media"></div>
+        <div class="product-card__body">
+          <div class="skeleton skeleton--title"></div>
+          <div class="skeleton skeleton--text" style="width:40%"></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

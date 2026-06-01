@@ -1,0 +1,82 @@
+{#
+  master.twig — root HTML shell for every page.
+  - dir/lang come from Salla locale (RTL by default for ar).
+  - Merchant brand colors are injected as inline CSS custom props so tokens.scss
+    picks them up at runtime with no rebuild.
+  - Fonts are preconnected + loaded with display=swap to avoid invisible text.
+  - The announcement bar is a fixed overlay; its measured height feeds
+    --announcement-h (set by app.js) so it never causes layout shift.
+#}
+<!DOCTYPE html>
+<html
+  lang="{{ salla.config.get('store.language', 'ar') }}"
+  dir="{{ salla.config.get('store.is_rtl', true) ? 'rtl' : 'ltr' }}"
+  data-theme="{{ theme.settings.default_mode | default('light') }}"
+>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="{{ theme.settings.color_primary | default('#6d28d9') }}">
+  <title>{% block title %}{{ page.title | default(salla.config.get('store.name')) }}{% endblock %}</title>
+
+  {# ---- Brand tokens from merchant settings (override tokens.scss defaults) #}
+  <style id="brand-tokens">
+    :root {
+      --brand-primary-raw: {{ theme.settings.color_primary | default('#6d28d9') }};
+      --brand-secondary-raw: {{ theme.settings.color_secondary | default('#db2777') }};
+      --brand-accent-raw: {{ theme.settings.color_accent | default('#f59e0b') }};
+      --gradient-angle-raw: {{ theme.settings.gradient_angle | default(135) }}deg;
+      --font-display: "{{ theme.settings.font_display | default('Tajawal') }}", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    }
+  </style>
+
+  {# ---- Fonts: preconnect + swap to protect LCP ---------------------------- #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+
+  {# Salla injects required head tags (SEO, analytics, pixels, etc.) #}
+  {{ salla.headTag }}
+
+  <link rel="stylesheet" href="{{ 'assets/styles/app.css' | asset }}">
+  {% block head %}{% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+  <a href="#main" class="skip-link">تخطّي إلى المحتوى</a>
+
+  {% include 'partials.announcement-bar' %}
+  {% include 'partials.header' %}
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials.footer' %}
+
+  {# Global overlays — rendered once, controlled by JS on every page #}
+  {% include 'partials.cart-drawer' %}
+  {% include 'partials.quick-view-modal' %}
+  {% if theme.settings.enable_exit_intent | default(true) %}
+    {% include 'partials.exit-intent-modal' %}
+  {% endif %}
+
+  {# Expose merchant CRO config to JS in one tiny JSON blob #}
+  <script id="theme-config" type="application/json">
+    {
+      "freeShippingThreshold": {{ theme.settings.free_shipping_threshold | default(200) }},
+      "lowStockThreshold": {{ theme.settings.low_stock_threshold | default(5) }},
+      "enableSocialProof": {{ theme.settings.enable_social_proof | default(true) ? 'true' : 'false' }},
+      "enableExitIntent": {{ theme.settings.enable_exit_intent | default(true) ? 'true' : 'false' }},
+      "exitIntentCoupon": "{{ theme.settings.exit_intent_coupon | default('WELCOME10') }}",
+      "enableRecentlyViewed": {{ theme.settings.enable_recently_viewed | default(true) ? 'true' : 'false' }},
+      "giftWrapPrice": {{ theme.settings.gift_wrap_price | default(15) }},
+      "currency": "{{ salla.config.get('store.currency', 'SAR') }}"
+    }
+  </script>
+
+  {{ salla.bodyTag }}
+  <script type="module" src="{{ 'assets/js/app.js' | asset }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

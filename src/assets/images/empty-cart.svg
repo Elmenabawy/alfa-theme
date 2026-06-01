@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180" role="img" aria-label="سلة فارغة">
+  <defs>
+    <linearGradient id="eg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d28d9"/>
+      <stop offset="1" stop-color="#db2777"/>
+    </linearGradient>
+  </defs>
+  <circle cx="90" cy="90" r="86" fill="#f3f1fb"/>
+  <g fill="none" stroke="url(#eg)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M50 56h84l-9 64a10 10 0 0 1-10 9H69a10 10 0 0 1-10-9z"/>
+    <path d="M70 56a20 20 0 0 1 40 0"/>
+  </g>
+  <path d="M74 92l32 0M74 108l24 0" stroke="#c9c4e0" stroke-width="6" stroke-linecap="round"/>
+</svg>

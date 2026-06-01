@@ -1,0 +1,46 @@
+{#
+  cart/index.twig — full cart page (the drawer is the primary UI, but a
+  dedicated page is needed for direct /cart visits and no-JS fallback).
+  Uses Salla's <salla-cart> for the authoritative list/totals; we wrap it in
+  our layout with a free-shipping bar and an empty state.
+#}
+{% extends 'layouts.master' %}
+
+{% block content %}
+<div class="container section">
+  <h1 class="section__title" style="margin-block-end:1.5rem">سلّة التسوّق</h1>
+
+  {% if salla.cart.count() > 0 %}
+    <div class="cart-page-grid">
+      <div>
+        {# Free-shipping bar (page version) #}
+        <div class="ship-bar glass" style="border-radius:var(--radius-lg);margin-block-end:1rem" data-ship-bar>
+          <p class="ship-bar__msg" data-ship-msg aria-live="polite"></p>
+          <div class="ship-bar__track"><div class="ship-bar__fill" data-ship-fill></div></div>
+        </div>
+        <salla-cart></salla-cart>
+      </div>
+
+      <aside class="glass" style="border-radius:var(--radius-lg);padding:1.25rem;align-self:start;
+              position:sticky;inset-block-start:calc(var(--header-h) + var(--announcement-h) + 1rem)">
+        <salla-cart-summary></salla-cart-summary>
+        <a href="{{ salla.url.get('checkout') }}" class="btn btn--primary btn--block btn--lg" style="margin-block-start:1rem">إتمام الطلب</a>
+      </aside>
+    </div>
+  {% else %}
+    {% include 'partials.empty' with {
+      title: 'سلّتك فارغة',
+      message: 'لم تُضِف أي منتجات بعد. لنبدأ التسوّق!',
+      cta_label: 'تصفّح المنتجات',
+      cta_url: salla.url.get('products')
+    } %}
+  {% endif %}
+
+  {% include 'partials.recently-viewed' %}
+</div>
+
+<style>
+  .cart-page-grid { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .cart-page-grid { grid-template-columns: 1fr 360px; } }
+</style>
+{% endblock %}

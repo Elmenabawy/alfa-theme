@@ -1,0 +1,27 @@
+{#
+  empty.twig — reusable friendly empty state (cart, wishlist, search, category).
+  Include with: title, message, cta_label, cta_url, image (all optional).
+  Never a blank panel — always an illustration + a way forward.
+#}
+<div class="empty-state" data-reveal>
+  <img
+    class="empty-state__img"
+    src="{{ image | default('assets/images/empty-cart.svg' | asset) }}"
+    alt=""
+    width="180" height="180"
+    loading="lazy" decoding="async"
+    aria-hidden="true"
+  >
+  <h2 class="empty-state__title">{{ title | default('لا يوجد شيء هنا بعد') }}</h2>
+  <p class="empty-state__msg">{{ message | default('لنبدأ باكتشاف منتجاتنا.') }}</p>
+  {% if cta_url is defined %}
+    <a href="{{ cta_url }}" class="btn btn--primary">{{ cta_label | default('تسوّق الآن') }}</a>
+  {% endif %}
+</div>
+
+<style>
+  .empty-state { display: grid; place-items: center; text-align: center; gap: .5rem; padding: 2.5rem 1rem; }
+  .empty-state__img { width: clamp(120px, 40vw, 180px); height: auto; opacity: .95; }
+  .empty-state__title { margin: .5rem 0 0; }
+  .empty-state__msg { color: var(--color-text-muted); margin: 0 0 .5rem; max-width: 36ch; }
+</style>

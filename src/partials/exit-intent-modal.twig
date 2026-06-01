@@ -1,0 +1,27 @@
+{#
+  exit-intent-modal.twig — coupon modal triggered by exit-intent.js (desktop:
+  cursor leaves viewport top; mobile: fast scroll-up / back gesture). Shows once
+  per session (localStorage flag). Coupon code comes from merchant settings.
+#}
+<div class="modal" data-exit-modal role="dialog" aria-modal="true" aria-labelledby="exit-title" data-open="false" hidden>
+  <div class="modal__panel has-grain" style="text-align:center">
+    <button type="button" class="btn-icon modal__close" data-exit-close aria-label="إغلاق">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <h2 id="exit-title" style="font-size:clamp(1.5rem,5vw,2rem)">قبل أن تذهب… 👋</h2>
+    <p style="color:var(--color-text-muted);margin-block:.5rem 1.25rem">
+      خصم خاص لك على طلبك الأول. استخدم الكود عند الدفع:
+    </p>
+
+    <div style="display:grid;place-items:center;gap:1rem">
+      <button type="button" class="exit-coupon" data-exit-coupon
+              aria-label="نسخ كود الخصم {{ theme.settings.exit_intent_coupon | default('WELCOME10') }}">
+        <span data-exit-code>{{ theme.settings.exit_intent_coupon | default('WELCOME10') }}</span>
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <small data-exit-copied aria-live="polite" style="color:var(--color-success);min-height:1.1em"></small>
+      <a href="{{ salla.url.get('products') }}" class="btn btn--primary btn--lg">تسوّق واستفد من الخصم</a>
+    </div>
+  </div>
+</div>
