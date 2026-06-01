@@ -68,6 +68,13 @@
 .cat-links--circle   .cat-links__media { border-radius: var(--radius-pill); }
 .cat-links--squircle .cat-links__media { border-radius: var(--radius-lg); }
 
+// Icon variant (custom links without images)
+.cat-links__media--icon {
+  color: var(--brand-primary);
+  background: color-mix(in srgb, var(--brand-primary) 10%, var(--color-surface-2));
+  i { font-size: 34px; line-height: 1; }
+}
+
 .cat-links__item a:hover .cat-links__media,
 .cat-links__item a:focus-visible .cat-links__media { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 .cat-links__item a:hover .cat-links__media img { transform: scale(1.08); }

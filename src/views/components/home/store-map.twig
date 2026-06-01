@@ -1,59 +1,37 @@
 {#
-  store-map.twig — store location map + info card.
-  Uses the keyless Google Maps embed (maps.google.com/maps?q=...&output=embed),
-  so no API key is required. Configurable: address/query, optional lat,lng,
-  height, heading, hours, phone. The iframe is lazy-loaded and has a fixed box
-  (zero CLS). A "get directions" button opens Google Maps in a new tab.
+  store-map.twig — store location map + info card (home builder component).
+  Keyless Google Maps embed (no API key). Reads component.* for address/lat/lng/
+  hours/phone/height, falling back to store.* globals. Fixed map box = zero CLS.
 #}
-{% set s = component | default(section.settings) | default({}) %}
-{% set title   = s.title | default('موقع المتجر') %}
-{% set address = s.address | default(salla.config.get('store.address', 'الرياض، السعودية')) %}
-{% set query   = (s.lat is defined and s.lng is defined and s.lat) ? (s.lat ~ ',' ~ s.lng) : address %}
-{% set height  = s.height | default('md') %}
+{% set title   = component.title | default('موقع المتجر') %}
+{% set address = component.address | default(store.address) | default('الرياض، السعودية') %}
+{% set query   = (component.lat and component.lng) ? (component.lat ~ ',' ~ component.lng) : address %}
+{% set height  = component.height | default('md') %}
+{% set phone   = component.phone | default(store.contacts.phone) %}
+{% set hours   = component.hours %}
 
 <section class="section container store-map" aria-labelledby="map-title" data-reveal>
   <div class="section__head"><h2 class="section__title" id="map-title">{{ title }}</h2></div>
 
   <div class="store-map__grid">
     <div class="store-map__frame store-map__frame--{{ height }}">
-      <iframe
-        title="خريطة موقع {{ salla.config.get('store.name', 'المتجر') }}"
-        src="https://maps.google.com/maps?q={{ query | url_encode }}&hl=ar&z=15&output=embed"
-        width="600" height="450"
-        style="border:0"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-      ></iframe>
+      <iframe title="{{ store.name }}" src="https://maps.google.com/maps?q={{ query | url_encode }}&hl=ar&z=15&output=embed"
+              width="600" height="450" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
     </div>
 
     <aside class="store-map__info glass">
-      <h3 style="margin-block:0 .75rem">{{ salla.config.get('store.name', 'المتجر') }}</h3>
-
+      <h3 style="margin-block:0 .75rem">{{ store.name }}</h3>
       <p class="store-map__row">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
         <span>{{ address }}</span>
       </p>
-
-      {% if s.hours | default(salla.config.get('store.working_hours', '')) %}
-        <p class="store-map__row">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span>{{ s.hours | default(salla.config.get('store.working_hours')) }}</span>
-        </p>
+      {% if hours %}
+        <p class="store-map__row"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>{{ hours }}</span></p>
       {% endif %}
-
-      {% if s.phone | default(salla.config.get('store.phone', '')) %}
-        <p class="store-map__row">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h3l2 5-2 1.5a12 12 0 0 0 5.5 5.5L20 14l-1.5 2.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M16 4h4v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <a href="tel:{{ s.phone | default(salla.config.get('store.phone')) }}" dir="ltr">{{ s.phone | default(salla.config.get('store.phone')) }}</a>
-        </p>
+      {% if phone %}
+        <p class="store-map__row"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h3l2 5-2 1.5a12 12 0 0 0 5.5 5.5L20 14l-1.5 2.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><a href="tel:{{ phone }}" dir="ltr">{{ phone }}</a></p>
       {% endif %}
-
-      <a class="btn btn--primary btn--block" style="margin-block-start:1rem"
-         href="https://www.google.com/maps/search/?api=1&query={{ query | url_encode }}"
-         target="_blank" rel="noopener">
-        الاتجاهات على الخريطة
-      </a>
+      <a class="btn btn--primary btn--block" style="margin-block-start:1rem" href="https://www.google.com/maps/search/?api=1&query={{ query | url_encode }}" target="_blank" rel="noopener">الاتجاهات على الخريطة</a>
     </aside>
   </div>
 </section>
