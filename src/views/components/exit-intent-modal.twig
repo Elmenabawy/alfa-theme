@@ -16,12 +16,12 @@
 
     <div style="display:grid;place-items:center;gap:1rem">
       <button type="button" class="exit-coupon" data-exit-coupon
-              aria-label="نسخ كود الخصم {{ theme.settings.exit_intent_coupon | default('WELCOME10') }}">
-        <span data-exit-code>{{ theme.settings.exit_intent_coupon | default('WELCOME10') }}</span>
+              aria-label="نسخ كود الخصم {{ theme.settings.get('exit_intent_coupon', 'WELCOME10') }}">
+        <span data-exit-code>{{ theme.settings.get('exit_intent_coupon', 'WELCOME10') }}</span>
         <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="2"/></svg>
       </button>
       <small data-exit-copied aria-live="polite" style="color:var(--color-success);min-height:1.1em"></small>
-      <a href="{{ salla.url.get('products') }}" class="btn btn--primary btn--lg">تسوّق واستفد من الخصم</a>
+      <a href="{{ link('products') }}" class="btn btn--primary btn--lg">تسوّق واستفد من الخصم</a>
     </div>
   </div>
 </div>

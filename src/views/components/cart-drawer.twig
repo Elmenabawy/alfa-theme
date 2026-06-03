@@ -63,6 +63,6 @@
       <span>{{ trans('pages.cart.total') | default('الإجمالي') }}</span>
       <span data-cart-subtotal>0</span>
     </div>
-    <a href="{{ link('cart.checkout.preferences') | default(link('cart')) }}" class="btn btn--primary btn--block btn--lg">{{ trans('pages.cart.checkout') | default('إتمام الطلب') }}</a>
+    <a href="{{ link('cart') }}" class="btn btn--primary btn--block btn--lg">{{ trans('pages.cart.checkout') | default('إتمام الطلب') }}</a>
   </footer>
 </aside>

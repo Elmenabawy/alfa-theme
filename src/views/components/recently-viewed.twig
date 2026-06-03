@@ -4,7 +4,7 @@
   localStorage ('alfa:recently-viewed') and removes the section if empty.
   Skeletons (not spinners) hold the layout so there is no shift on hydrate.
 #}
-{% if theme.settings.enable_recently_viewed | default(true) %}
+{% if theme.settings.get('enable_recently_viewed', true) %}
 <section class="section container" aria-labelledby="rv-title" data-recently-viewed hidden>
   <div class="section__head">
     <h2 class="section__title" id="rv-title">شاهدته مؤخراً</h2>

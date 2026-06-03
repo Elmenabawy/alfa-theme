@@ -21,7 +21,7 @@
     <aside class="glass" style="border-radius:var(--radius-lg);padding:1.25rem;align-self:start;
             position:sticky;inset-block-start:calc(var(--header-h) + var(--announcement-h) + 1rem)">
       <salla-cart-summary></salla-cart-summary>
-      <a href="{{ link('cart.checkout.preferences') | default(link('cart')) }}" class="btn btn--primary btn--block btn--lg" style="margin-block-start:1rem">{{ trans('pages.cart.checkout') | default('إتمام الطلب') }}</a>
+      <a href="{{ link('cart') }}" class="btn btn--primary btn--block btn--lg" style="margin-block-start:1rem">{{ trans('pages.cart.checkout') | default('إتمام الطلب') }}</a>
     </aside>
   </div>
 

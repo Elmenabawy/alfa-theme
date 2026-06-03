@@ -34,19 +34,19 @@
             <div class="cart-line__name">{{ item.name }}</div>
             <small style="color:var(--color-text-muted)">الكمية: {{ item.quantity }}</small>
           </div>
-          <div class="cart-line__price">{{ item.total | money }}</div>
+          <div class="cart-line__price">{{ item.total }}</div>
         </div>
       {% endfor %}
       <div style="display:flex;justify-content:space-between;font-weight:800;padding-block-start:1rem">
-        <span>الإجمالي</span><span>{{ order.total | default(0) | money }}</span>
+        <span>الإجمالي</span><span>{{ order.total }}</span>
       </div>
     </section>
 
     <aside class="glass" style="border-radius:var(--radius-lg);padding:1.25rem;align-self:start">
       <h2 style="font-size:1.1rem">تتبّع الشحنة</h2>
       <p style="color:var(--color-text-muted);font-size:.9rem">سنخطرك فور شحن طلبك. يمكنك متابعة الحالة في أي وقت.</p>
-      <a href="{{ order.tracking_url | default(salla.url.get('profile.orders')) }}" class="btn btn--primary btn--block">تتبّع طلبي</a>
-      <a href="{{ salla.url.get('products') }}" class="btn btn--ghost btn--block" style="margin-block-start:.5rem">متابعة التسوّق</a>
+      <a href="{{ order.tracking_url | default(link('profile')) }}" class="btn btn--primary btn--block">تتبّع طلبي</a>
+      <a href="{{ link('products') }}" class="btn btn--ghost btn--block" style="margin-block-start:.5rem">متابعة التسوّق</a>
     </aside>
   </div>
 </div>
