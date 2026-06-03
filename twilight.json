@@ -9,7 +9,10 @@
         "color",
         "fonts",
         "breadcrumb",
-        "unite-cards-height"
+        "unite-cards-height",
+        "mega-menu",
+        "component-fixed-banner",
+        "component-featured-products"
     ],
     "settings": [
         {
