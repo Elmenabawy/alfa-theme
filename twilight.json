@@ -16,7 +16,7 @@
             "type": "static",
             "format": "title",
             "id": "static-announcement-title",
-            "value": "<div class='rounded-lg' style='background-color:#6d28d9;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#fff;font-size:15px;font-weight:bold;'>شريط الإعلان | Announcement Bar</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >شريط الإعلان | Announcement Bar</h6></div>",
             "variant": "h6"
         },
         {
@@ -28,7 +28,8 @@
             "format": "switch",
             "required": false,
             "value": true,
-            "selected": true
+            "selected": true,
+            "public": true
         },
         {
             "type": "string",
@@ -39,7 +40,8 @@
             "multilanguage": true,
             "required": false,
             "value": "شحن مجاني للطلبات فوق 200 ر.س 🚚",
-            "placeholder": "اكتب نص الإعلان هنا"
+            "placeholder": "اكتب نص الإعلان هنا",
+            "public": true
         },
         {
             "type": "string",
@@ -49,8 +51,10 @@
             "description": "مثال: 2026-07-01T00:00:00",
             "format": "text",
             "required": false,
-            "value": "",
-            "placeholder": "2026-07-01T00:00:00"
+            "value": null,
+            "placeholder": "2026-07-01T00:00:00",
+            "public": true,
+            "multilanguage": true
         },
         {
             "type": "boolean",
@@ -60,7 +64,8 @@
             "format": "switch",
             "required": false,
             "value": true,
-            "selected": true
+            "selected": true,
+            "public": true
         },
         {
             "type": "static",
@@ -71,7 +76,7 @@
             "type": "static",
             "format": "title",
             "id": "static-cro-title",
-            "value": "<div class='rounded-lg' style='background-color:#db2777;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#fff;font-size:15px;font-weight:bold;'>ميزات رفع التحويل | CRO</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >ميزات رفع التحويل | CRO</h6></div>",
             "variant": "h6"
         },
         {
@@ -84,7 +89,8 @@
             "required": false,
             "value": 200,
             "minimum": 0,
-            "maximum": 100000
+            "maximum": 100000,
+            "public": true
         },
         {
             "type": "number",
@@ -96,7 +102,8 @@
             "required": false,
             "value": 5,
             "minimum": 0,
-            "maximum": 100
+            "maximum": 100,
+            "public": true
         },
         {
             "type": "boolean",
@@ -106,7 +113,8 @@
             "format": "switch",
             "required": false,
             "value": true,
-            "selected": true
+            "selected": true,
+            "public": true
         },
         {
             "type": "boolean",
@@ -116,7 +124,8 @@
             "format": "switch",
             "required": false,
             "value": true,
-            "selected": true
+            "selected": true,
+            "public": true
         },
         {
             "type": "string",
@@ -126,7 +135,8 @@
             "format": "text",
             "required": false,
             "value": "WELCOME10",
-            "placeholder": "WELCOME10"
+            "placeholder": "WELCOME10",
+            "public": true
         },
         {
             "type": "boolean",
@@ -136,7 +146,8 @@
             "format": "switch",
             "required": false,
             "value": true,
-            "selected": true
+            "selected": true,
+            "public": true
         },
         {
             "type": "number",
@@ -147,7 +158,8 @@
             "required": false,
             "value": 15,
             "minimum": 0,
-            "maximum": 1000
+            "maximum": 1000,
+            "public": true
         },
         {
             "type": "boolean",
@@ -157,158 +169,659 @@
             "format": "switch",
             "required": false,
             "value": true,
-            "selected": true
+            "selected": true,
+            "public": true
         }
     ],
     "components": [
         {
             "key": "27ef80ba-c5f0-4d46-a3e6-74de31dbcf30",
-            "title": { "en": "Hero", "ar": "الواجهة الرئيسية" },
+            "title": {
+                "en": "Hero",
+                "ar": "الواجهة الرئيسية"
+            },
             "icon": "sicon-image",
             "path": "home.hero",
             "fields": [
-                { "type": "string", "format": "image", "id": "image", "icon": "sicon-image", "label": "صورة الخلفية", "value": null, "required": false, "description": "* المقاس المناسب 1600×900 بكسل" },
-                { "type": "string", "format": "text", "id": "eyebrow", "icon": "sicon-format-text-alt", "label": "نص علوي صغير", "multilanguage": true, "value": "مجموعة 2026", "required": false, "placeholder": "نص تمهيدي قصير" },
-                { "type": "string", "format": "text", "id": "title", "icon": "sicon-format-text-alt", "label": "العنوان الرئيسي", "multilanguage": true, "value": "أناقة تُلهم يومك", "required": false, "maxLength": 80 },
-                { "type": "string", "format": "textarea", "id": "subtitle", "icon": "sicon-typography", "label": "نص فرعي", "multilanguage": true, "value": "اكتشف تشكيلتنا الجديدة المصمّمة بعناية — جودة تدوم وتفاصيل تُحدث الفرق.", "required": false, "maxLength": 180 },
-                { "type": "string", "format": "text", "id": "primary_label", "icon": "sicon-cursor-click", "label": "زر أساسي - النص", "multilanguage": true, "value": "تسوّق الآن", "required": false },
-                { "type": "string", "format": "text", "id": "primary_url", "icon": "sicon-link", "label": "زر أساسي - الرابط", "value": null, "required": false, "placeholder": "https://" },
-                { "type": "string", "format": "text", "id": "secondary_label", "icon": "sicon-cursor-click", "label": "زر ثانوي - النص", "multilanguage": true, "value": "اعرف المزيد", "required": false },
-                { "type": "string", "format": "text", "id": "secondary_url", "icon": "sicon-link", "label": "زر ثانوي - الرابط", "value": null, "required": false, "placeholder": "https://" }
+                {
+                    "type": "string",
+                    "format": "image",
+                    "id": "image",
+                    "icon": "sicon-image",
+                    "label": "صورة الخلفية",
+                    "value": null,
+                    "required": false,
+                    "description": "* المقاس المناسب 1600×900 بكسل"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "eyebrow",
+                    "icon": "sicon-format-text-alt",
+                    "label": "نص علوي صغير",
+                    "multilanguage": true,
+                    "value": "مجموعة 2026",
+                    "required": false,
+                    "placeholder": "نص تمهيدي قصير"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "title",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان الرئيسي",
+                    "multilanguage": true,
+                    "value": "أناقة تُلهم يومك",
+                    "required": false,
+                    "maxLength": 80
+                },
+                {
+                    "type": "string",
+                    "format": "textarea",
+                    "id": "subtitle",
+                    "icon": "sicon-typography",
+                    "label": "نص فرعي",
+                    "multilanguage": true,
+                    "value": "اكتشف تشكيلتنا الجديدة المصمّمة بعناية — جودة تدوم وتفاصيل تُحدث الفرق.",
+                    "required": false,
+                    "maxLength": 180
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "primary_label",
+                    "icon": "sicon-cursor-click",
+                    "label": "زر أساسي - النص",
+                    "multilanguage": true,
+                    "value": "تسوّق الآن",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "primary_url",
+                    "icon": "sicon-link",
+                    "label": "زر أساسي - الرابط",
+                    "value": null,
+                    "required": false,
+                    "placeholder": "https://"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "secondary_label",
+                    "icon": "sicon-cursor-click",
+                    "label": "زر ثانوي - النص",
+                    "multilanguage": true,
+                    "value": "اعرف المزيد",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "secondary_url",
+                    "icon": "sicon-link",
+                    "label": "زر ثانوي - الرابط",
+                    "value": null,
+                    "required": false,
+                    "placeholder": "https://"
+                }
             ]
         },
         {
             "key": "5a77b9df-c77d-4aab-9344-7e06de9051e4",
-            "title": { "en": "Banner", "ar": "بانر ترويجي" },
+            "title": {
+                "en": "Banner",
+                "ar": "بانر ترويجي"
+            },
             "icon": "sicon-image-carousel",
             "path": "home.banner",
             "fields": [
-                { "type": "string", "format": "image", "id": "image", "icon": "sicon-image", "label": "الصورة", "value": null, "required": true, "description": "* المقاس المناسب 1600×600 بكسل" },
-                { "type": "string", "format": "text", "id": "link", "icon": "sicon-link", "label": "رابط البانر", "value": null, "required": false, "placeholder": "https://" },
-                { "type": "string", "format": "text", "id": "eyebrow", "icon": "sicon-format-text-alt", "label": "نص علوي", "multilanguage": true, "value": null, "required": false },
-                { "type": "string", "format": "text", "id": "title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": null, "required": false, "maxLength": 80 },
-                { "type": "string", "format": "textarea", "id": "subtitle", "icon": "sicon-typography", "label": "نص فرعي", "multilanguage": true, "value": null, "required": false, "maxLength": 160 },
-                { "type": "string", "format": "text", "id": "cta_label", "icon": "sicon-cursor-click", "label": "نص الزر", "multilanguage": true, "value": null, "required": false },
-                { "type": "boolean", "format": "switch", "id": "full_width", "icon": "sicon-toggle-off", "label": "عرض كامل (بدون هوامش جانبية)", "value": false, "selected": false, "required": false },
-                { "type": "boolean", "format": "switch", "id": "overlay", "icon": "sicon-toggle-off", "label": "طبقة تظليل للنص", "value": true, "selected": true, "required": false },
                 {
-                    "id": "top_padding", "type": "items", "format": "dropdown-list", "label": "المسافة العلوية", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "متوسطة", "value": "md", "key": "c7ac01ae-0ae2-431a-8682-288cf8dcf609" } ],
+                    "type": "string",
+                    "format": "image",
+                    "id": "image",
+                    "icon": "sicon-image",
+                    "label": "الصورة",
+                    "value": null,
+                    "required": true,
+                    "description": "* المقاس المناسب 1600×600 بكسل"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "link",
+                    "icon": "sicon-link",
+                    "label": "رابط البانر",
+                    "value": null,
+                    "required": false,
+                    "placeholder": "https://"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "eyebrow",
+                    "icon": "sicon-format-text-alt",
+                    "label": "نص علوي",
+                    "multilanguage": true,
+                    "value": null,
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "title",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "value": null,
+                    "required": false,
+                    "maxLength": 80
+                },
+                {
+                    "type": "string",
+                    "format": "textarea",
+                    "id": "subtitle",
+                    "icon": "sicon-typography",
+                    "label": "نص فرعي",
+                    "multilanguage": true,
+                    "value": null,
+                    "required": false,
+                    "maxLength": 160
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "cta_label",
+                    "icon": "sicon-cursor-click",
+                    "label": "نص الزر",
+                    "multilanguage": true,
+                    "value": null,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
+                    "format": "switch",
+                    "id": "full_width",
+                    "icon": "sicon-toggle-off",
+                    "label": "عرض كامل (بدون هوامش جانبية)",
+                    "value": false,
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
+                    "format": "switch",
+                    "id": "overlay",
+                    "icon": "sicon-toggle-off",
+                    "label": "طبقة تظليل للنص",
+                    "value": true,
+                    "selected": true,
+                    "required": false
+                },
+                {
+                    "id": "top_padding",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "المسافة العلوية",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسطة",
+                            "value": "md",
+                            "key": "c7ac01ae-0ae2-431a-8682-288cf8dcf609"
+                        }
+                    ],
                     "options": [
-                        { "label": "بدون", "value": "none", "key": "b6ba1f12-8c9c-47bd-a194-86fbd031e3b0" },
-                        { "label": "صغيرة", "value": "sm", "key": "cae202c9-fb68-4aca-acd8-246e0c8773cf" },
-                        { "label": "متوسطة", "value": "md", "key": "c7ac01ae-0ae2-431a-8682-288cf8dcf609" },
-                        { "label": "كبيرة", "value": "lg", "key": "89b2ba6e-c533-4dd9-a637-b26f23fb6a89" }
+                        {
+                            "label": "بدون",
+                            "value": "none",
+                            "key": "b6ba1f12-8c9c-47bd-a194-86fbd031e3b0"
+                        },
+                        {
+                            "label": "صغيرة",
+                            "value": "sm",
+                            "key": "cae202c9-fb68-4aca-acd8-246e0c8773cf"
+                        },
+                        {
+                            "label": "متوسطة",
+                            "value": "md",
+                            "key": "c7ac01ae-0ae2-431a-8682-288cf8dcf609"
+                        },
+                        {
+                            "label": "كبيرة",
+                            "value": "lg",
+                            "key": "89b2ba6e-c533-4dd9-a637-b26f23fb6a89"
+                        }
                     ]
                 },
                 {
-                    "id": "corners", "type": "items", "format": "dropdown-list", "label": "الزوايا", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "دائرية", "value": "rounded", "key": "f11c648d-4f62-4370-973c-bbf4c7ffb919" } ],
+                    "id": "corners",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "الزوايا",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "دائرية",
+                            "value": "rounded",
+                            "key": "f11c648d-4f62-4370-973c-bbf4c7ffb919"
+                        }
+                    ],
                     "options": [
-                        { "label": "دائرية", "value": "rounded", "key": "f11c648d-4f62-4370-973c-bbf4c7ffb919" },
-                        { "label": "حادة", "value": "sharp", "key": "071e8645-28d8-4469-b8ae-0311640c07e9" }
+                        {
+                            "label": "دائرية",
+                            "value": "rounded",
+                            "key": "f11c648d-4f62-4370-973c-bbf4c7ffb919"
+                        },
+                        {
+                            "label": "حادة",
+                            "value": "sharp",
+                            "key": "071e8645-28d8-4469-b8ae-0311640c07e9"
+                        }
                     ]
                 },
                 {
-                    "id": "height", "type": "items", "format": "dropdown-list", "label": "الارتفاع", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "متوسط", "value": "md", "key": "da54028b-b6be-4425-af08-e73a1801b6d4" } ],
+                    "id": "height",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "الارتفاع",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "md",
+                            "key": "da54028b-b6be-4425-af08-e73a1801b6d4"
+                        }
+                    ],
                     "options": [
-                        { "label": "منخفض", "value": "sm", "key": "d24b38c2-10bc-41da-a3cf-0525880c5c75" },
-                        { "label": "متوسط", "value": "md", "key": "da54028b-b6be-4425-af08-e73a1801b6d4" },
-                        { "label": "مرتفع", "value": "lg", "key": "aa2b0d9f-0842-4d8a-9d1e-df214063b386" }
+                        {
+                            "label": "منخفض",
+                            "value": "sm",
+                            "key": "d24b38c2-10bc-41da-a3cf-0525880c5c75"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "md",
+                            "key": "da54028b-b6be-4425-af08-e73a1801b6d4"
+                        },
+                        {
+                            "label": "مرتفع",
+                            "value": "lg",
+                            "key": "aa2b0d9f-0842-4d8a-9d1e-df214063b386"
+                        }
                     ]
                 }
             ]
         },
         {
             "key": "a32635e3-a4a7-48ed-bd35-4b06c1f51627",
-            "title": { "en": "Category Links", "ar": "روابط الفئات" },
+            "title": {
+                "en": "Category Links",
+                "ar": "روابط الفئات"
+            },
             "icon": "sicon-layout-grid-rearrange",
             "path": "home.category-links",
             "fields": [
-                { "type": "string", "format": "text", "id": "title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": "تسوّق حسب الفئة", "required": false },
                 {
-                    "id": "shape", "type": "items", "format": "dropdown-list", "label": "شكل الصورة", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "دائري", "value": "circle", "key": "4eac6a2e-33a0-4b9d-a44c-be7b020f141b" } ],
+                    "type": "string",
+                    "format": "text",
+                    "id": "title",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "value": "تسوّق حسب الفئة",
+                    "required": false
+                },
+                {
+                    "id": "shape",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "شكل الصورة",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "دائري",
+                            "value": "circle",
+                            "key": "4eac6a2e-33a0-4b9d-a44c-be7b020f141b"
+                        }
+                    ],
                     "options": [
-                        { "label": "دائري", "value": "circle", "key": "4eac6a2e-33a0-4b9d-a44c-be7b020f141b" },
-                        { "label": "مربع بحواف", "value": "squircle", "key": "41dc1240-d7c7-4882-97bc-6f59bfdb2a7b" }
+                        {
+                            "label": "دائري",
+                            "value": "circle",
+                            "key": "4eac6a2e-33a0-4b9d-a44c-be7b020f141b"
+                        },
+                        {
+                            "label": "مربع بحواف",
+                            "value": "squircle",
+                            "key": "41dc1240-d7c7-4882-97bc-6f59bfdb2a7b"
+                        }
                     ]
                 },
-                { "type": "boolean", "format": "switch", "id": "show_cats", "icon": "sicon-toggle-off", "label": "عرض فئات المتجر", "description": "بدل الروابط اليدوية، اعرض تصنيفات المتجر مع صورها", "value": false, "selected": false, "required": false },
                 {
-                    "id": "categories", "type": "items", "format": "dropdown-list", "label": "اختر الفئات", "icon": "sicon-keyboard_arrow_down",
-                    "source": "categories", "multichoice": true, "searchable": true, "selected": [], "options": [], "required": false,
-                    "conditions": [ { "id": "show_cats", "operation": "=", "value": true } ]
+                    "type": "boolean",
+                    "format": "switch",
+                    "id": "show_cats",
+                    "icon": "sicon-toggle-off",
+                    "label": "عرض فئات المتجر",
+                    "description": "بدل الروابط اليدوية، اعرض تصنيفات المتجر مع صورها",
+                    "value": false,
+                    "selected": false,
+                    "required": false
                 },
                 {
-                    "id": "links", "type": "collection", "format": "collection", "required": false, "minLength": 1, "maxLength": 12, "item_label": "رابط",
-                    "conditions": [ { "id": "show_cats", "operation": "=", "value": false } ],
+                    "id": "categories",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "اختر الفئات",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "source": "categories",
+                    "multichoice": true,
+                    "searchable": true,
+                    "selected": [],
+                    "options": [],
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "show_cats",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "links",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": false,
+                    "minLength": 1,
+                    "maxLength": 12,
+                    "item_label": "رابط",
+                    "conditions": [
+                        {
+                            "id": "show_cats",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ],
                     "value": [
-                        { "links.icon": "sicon-shopping-bag", "links.title": "ملابс", "links.url": "" },
-                        { "links.icon": "sicon-cube", "links.title": "أحذية", "links.url": "" },
-                        { "links.icon": "sicon-bag-alt", "links.title": "حقائب", "links.url": "" },
-                        { "links.icon": "sicon-watch", "links.title": "ساعات", "links.url": "" }
+                        {
+                            "links.icon": "sicon-shopping-bag",
+                            "links.title": "ملابс",
+                            "links.url": ""
+                        },
+                        {
+                            "links.icon": "sicon-cube",
+                            "links.title": "أحذية",
+                            "links.url": ""
+                        },
+                        {
+                            "links.icon": "sicon-bag-alt",
+                            "links.title": "حقائب",
+                            "links.url": ""
+                        },
+                        {
+                            "links.icon": "sicon-watch",
+                            "links.title": "ساعات",
+                            "links.url": ""
+                        }
                     ],
                     "fields": [
-                        { "type": "string", "format": "icon", "id": "links.icon", "icon": "sicon-image", "label": "الأيقونة", "value": "sicon-store2", "required": false, "class": "form--inline" },
-                        { "type": "string", "format": "text", "id": "links.title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": null, "required": false, "maxLength": 40 },
-                        { "type": "string", "format": "text", "id": "links.url", "icon": "sicon-link", "label": "الرابط", "value": null, "required": false, "placeholder": "https://" }
+                        {
+                            "type": "string",
+                            "format": "icon",
+                            "id": "links.icon",
+                            "icon": "sicon-image",
+                            "label": "الأيقونة",
+                            "value": "sicon-store2",
+                            "required": false,
+                            "class": "form--inline"
+                        },
+                        {
+                            "type": "string",
+                            "format": "text",
+                            "id": "links.title",
+                            "icon": "sicon-format-text-alt",
+                            "label": "العنوان",
+                            "multilanguage": true,
+                            "value": null,
+                            "required": false,
+                            "maxLength": 40
+                        },
+                        {
+                            "type": "string",
+                            "format": "text",
+                            "id": "links.url",
+                            "icon": "sicon-link",
+                            "label": "الرابط",
+                            "value": null,
+                            "required": false,
+                            "placeholder": "https://"
+                        }
                     ]
                 }
             ]
         },
         {
             "key": "77a4fc96-5a9c-4ea3-b666-da0cbfd1b66d",
-            "title": { "en": "Store Features", "ar": "مزايا المتجر" },
+            "title": {
+                "en": "Store Features",
+                "ar": "مزايا المتجر"
+            },
             "icon": "sicon-bolt-alt",
             "path": "home.store-features",
             "fields": [
-                { "type": "string", "format": "text", "id": "title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": "لماذا تتسوّق معنا؟", "required": false },
                 {
-                    "id": "features", "type": "collection", "format": "collection", "required": false, "minLength": 1, "maxLength": 8, "item_label": "ميزة",
+                    "type": "string",
+                    "format": "text",
+                    "id": "title",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "value": "لماذا تتسوّق معنا؟",
+                    "required": false
+                },
+                {
+                    "id": "features",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": false,
+                    "minLength": 1,
+                    "maxLength": 8,
+                    "item_label": "ميزة",
                     "value": [
-                        { "features.icon": "truck", "features.title": "شحن سريع", "features.text": "توصيل خلال 2-4 أيام لكل المدن" },
-                        { "features.icon": "shield", "features.title": "دفع آمن", "features.text": "بوابات دفع موثوقة ومشفّرة" },
-                        { "features.icon": "refresh", "features.title": "إرجاع مجاني", "features.text": "استبدال أو استرجاع خلال 14 يوماً" },
-                        { "features.icon": "headset", "features.title": "دعم 24/7", "features.text": "فريقنا جاهز لمساعدتك دائماً" }
+                        {
+                            "features.icon": "truck",
+                            "features.title": "شحن سريع",
+                            "features.text": "توصيل خلال 2-4 أيام لكل المدن"
+                        },
+                        {
+                            "features.icon": "shield",
+                            "features.title": "دفع آمن",
+                            "features.text": "بوابات دفع موثوقة ومشفّرة"
+                        },
+                        {
+                            "features.icon": "refresh",
+                            "features.title": "إرجاع مجاني",
+                            "features.text": "استبدال أو استرجاع خلال 14 يوماً"
+                        },
+                        {
+                            "features.icon": "headset",
+                            "features.title": "دعم 24/7",
+                            "features.text": "فريقنا جاهز لمساعدتك دائماً"
+                        }
                     ],
                     "fields": [
                         {
-                            "id": "features.icon", "type": "items", "format": "dropdown-list", "label": "الأيقونة", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                            "selected": [ { "label": "شاحنة", "value": "truck", "key": "af7bd831-00fb-4a0f-9012-9319b9387c2a" } ],
+                            "id": "features.icon",
+                            "type": "items",
+                            "format": "dropdown-list",
+                            "label": "الأيقونة",
+                            "icon": "sicon-keyboard_arrow_down",
+                            "source": "Manual",
+                            "required": false,
+                            "selected": [
+                                {
+                                    "label": "شاحنة",
+                                    "value": "truck",
+                                    "key": "af7bd831-00fb-4a0f-9012-9319b9387c2a"
+                                }
+                            ],
                             "options": [
-                                { "label": "شاحنة", "value": "truck", "key": "af7bd831-00fb-4a0f-9012-9319b9387c2a" },
-                                { "label": "درع", "value": "shield", "key": "b94a54fa-d70d-4ceb-a47e-0e0e3608fa53" },
-                                { "label": "إرجاع", "value": "refresh", "key": "2a270076-ff8a-402b-8a4f-86cd5bbaca72" },
-                                { "label": "دعم", "value": "headset", "key": "63bd5311-53a4-4d48-90c1-daf8e0c361ff" }
+                                {
+                                    "label": "شاحنة",
+                                    "value": "truck",
+                                    "key": "af7bd831-00fb-4a0f-9012-9319b9387c2a"
+                                },
+                                {
+                                    "label": "درع",
+                                    "value": "shield",
+                                    "key": "b94a54fa-d70d-4ceb-a47e-0e0e3608fa53"
+                                },
+                                {
+                                    "label": "إرجاع",
+                                    "value": "refresh",
+                                    "key": "2a270076-ff8a-402b-8a4f-86cd5bbaca72"
+                                },
+                                {
+                                    "label": "دعم",
+                                    "value": "headset",
+                                    "key": "63bd5311-53a4-4d48-90c1-daf8e0c361ff"
+                                }
                             ]
                         },
-                        { "type": "string", "format": "text", "id": "features.title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": null, "required": false, "maxLength": 40 },
-                        { "type": "string", "format": "textarea", "id": "features.text", "icon": "sicon-typography", "label": "الوصف", "multilanguage": true, "value": null, "required": false, "maxLength": 100 }
+                        {
+                            "type": "string",
+                            "format": "text",
+                            "id": "features.title",
+                            "icon": "sicon-format-text-alt",
+                            "label": "العنوان",
+                            "multilanguage": true,
+                            "value": null,
+                            "required": false,
+                            "maxLength": 40
+                        },
+                        {
+                            "type": "string",
+                            "format": "textarea",
+                            "id": "features.text",
+                            "icon": "sicon-typography",
+                            "label": "الوصف",
+                            "multilanguage": true,
+                            "value": null,
+                            "required": false,
+                            "maxLength": 100
+                        }
                     ]
                 }
             ]
         },
         {
             "key": "f29bd624-d43e-42c0-b01b-53ae6c33ef93",
-            "title": { "en": "Store Map", "ar": "خريطة الموقع" },
+            "title": {
+                "en": "Store Map",
+                "ar": "خريطة الموقع"
+            },
             "icon": "sicon-location",
             "path": "home.store-map",
             "fields": [
-                { "type": "string", "format": "text", "id": "title", "icon": "sicon-format-text-alt", "label": "العنوان", "multilanguage": true, "value": "موقع المتجر", "required": false },
-                { "type": "string", "format": "text", "id": "address", "icon": "sicon-location", "label": "العنوان النصي", "value": null, "required": false, "placeholder": "المدينة، الحي، الشارع" },
-                { "type": "string", "format": "text", "id": "lat", "icon": "sicon-location", "label": "خط العرض (Latitude) — اختياري", "value": null, "required": false },
-                { "type": "string", "format": "text", "id": "lng", "icon": "sicon-location", "label": "خط الطول (Longitude) — اختياري", "value": null, "required": false },
-                { "type": "string", "format": "text", "id": "hours", "icon": "sicon-clock", "label": "ساعات العمل", "value": null, "required": false, "placeholder": "يومياً 10ص - 11م" },
-                { "type": "string", "format": "text", "id": "phone", "icon": "sicon-phone", "label": "هاتف", "value": null, "required": false },
                 {
-                    "id": "height", "type": "items", "format": "dropdown-list", "label": "ارتفاع الخريطة", "icon": "sicon-keyboard_arrow_down", "source": "Manual", "required": false,
-                    "selected": [ { "label": "متوسط", "value": "md", "key": "359e3983-74af-4852-a0ee-4d85594c1aec" } ],
+                    "type": "string",
+                    "format": "text",
+                    "id": "title",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "value": "موقع المتجر",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "address",
+                    "icon": "sicon-location",
+                    "label": "العنوان النصي",
+                    "value": null,
+                    "required": false,
+                    "placeholder": "المدينة، الحي، الشارع"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "lat",
+                    "icon": "sicon-location",
+                    "label": "خط العرض (Latitude) — اختياري",
+                    "value": null,
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "lng",
+                    "icon": "sicon-location",
+                    "label": "خط الطول (Longitude) — اختياري",
+                    "value": null,
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "hours",
+                    "icon": "sicon-clock",
+                    "label": "ساعات العمل",
+                    "value": null,
+                    "required": false,
+                    "placeholder": "يومياً 10ص - 11م"
+                },
+                {
+                    "type": "string",
+                    "format": "text",
+                    "id": "phone",
+                    "icon": "sicon-phone",
+                    "label": "هاتف",
+                    "value": null,
+                    "required": false
+                },
+                {
+                    "id": "height",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "ارتفاع الخريطة",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "md",
+                            "key": "359e3983-74af-4852-a0ee-4d85594c1aec"
+                        }
+                    ],
                     "options": [
-                        { "label": "منخفض", "value": "sm", "key": "c87c3fc6-8486-45a3-81da-f10572122dc4" },
-                        { "label": "متوسط", "value": "md", "key": "359e3983-74af-4852-a0ee-4d85594c1aec" },
-                        { "label": "مرتفع", "value": "lg", "key": "206b0bd3-8ba0-464a-a0f4-fb8d0a4bc61a" }
+                        {
+                            "label": "منخفض",
+                            "value": "sm",
+                            "key": "c87c3fc6-8486-45a3-81da-f10572122dc4"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "md",
+                            "key": "359e3983-74af-4852-a0ee-4d85594c1aec"
+                        },
+                        {
+                            "label": "مرتفع",
+                            "value": "lg",
+                            "key": "206b0bd3-8ba0-464a-a0f4-fb8d0a4bc61a"
+                        }
                     ]
                 }
             ]
