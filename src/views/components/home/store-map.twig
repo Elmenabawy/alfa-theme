@@ -4,10 +4,10 @@
   hours/phone/height, falling back to store.* globals. Fixed map box = zero CLS.
 #}
 {% set title   = component.title | default('موقع المتجر') %}
-{% set address = component.address | default(store.address) | default('الرياض، السعودية') %}
+{% set address = component.address ?? store.address ?? 'الرياض، السعودية' %}
 {% set query   = (component.lat and component.lng) ? (component.lat ~ ',' ~ component.lng) : address %}
 {% set height  = component.height | default('md') %}
-{% set phone   = component.phone | default(store.contacts.phone) %}
+{% set phone   = component.phone ?? store.contacts.phone ?? null %}
 {% set hours   = component.hours %}
 
 <section class="section container store-map" aria-labelledby="map-title" data-reveal>

@@ -10,7 +10,7 @@
   <div class="hero__media">
     <img class="hero__img"
          src="{{ s.image | default(theme.settings.get('placeholder') | asset) }}"
-         alt="{{ s.image_alt | default(headline) }}"
+         alt="{{ headline }}"
          width="1600" height="900" fetchpriority="high" decoding="async" data-parallax>
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
