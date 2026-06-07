@@ -1,0 +1,28 @@
+{#
+  featured-products-style1.twig — Salla built-in "Featured Products" component.
+  Data is injected as TOP-LEVEL vars (not component.*):
+    items[]            — sections; each has .title and .products[]
+    main_product       — optional highlighted product { title, product }
+    position           — sort index
+  Rendered with our scroll-snap carousel + our product-card. Fully guarded so
+  empty data can never crash the render.
+#}
+{% set sections = items | default([]) %}
+{% set heading = main_product.title | default(sections|first.title) | default('منتجات مميزة') %}
+
+<section class="section container" aria-labelledby="fp-{{ position | default(0) }}" data-reveal>
+  <div class="section__head">
+    <h2 class="section__title" id="fp-{{ position | default(0) }}">{{ heading }}</h2>
+    <a class="section__link" href="{{ link('products') }}">عرض الكل ←</a>
+  </div>
+
+  <div class="carousel" data-carousel role="list">
+    {% for section in sections %}
+      {% for product in section.products | default([]) %}
+        <div role="listitem">
+          {% include 'components.product-card' with { product: product } %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</section>

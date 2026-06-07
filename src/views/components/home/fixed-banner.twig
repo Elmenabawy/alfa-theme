@@ -1,0 +1,15 @@
+{#
+  fixed-banner.twig — Salla built-in "Fixed Banner" component.
+  Data injected as TOP-LEVEL vars: url, image.url, image.alt, image.small_url, position.
+  Styled with our banner frame. Guarded against missing image.
+#}
+{% if image.url is defined and image.url %}
+<section class="alfa-banner alfa-banner--pt-md alfa-banner--rounded alfa-banner--h-sm" data-reveal>
+  <a class="alfa-banner__frame" href="{{ url | default('#') }}" aria-label="{{ image.alt | default('بانر') }}">
+    <picture>
+      {% if image.small_url %}<source media="(max-width: 767px)" srcset="{{ image.small_url }}">{% endif %}
+      <img class="alfa-banner__img" src="{{ image.url }}" alt="{{ image.alt | default('بانر') }}" width="1600" height="500" loading="lazy" decoding="async">
+    </picture>
+  </a>
+</section>
+{% endif %}
