@@ -1,16 +1,16 @@
 {#
-  header.twig — sticky glass header (real Salla conventions).
-  - Logo, desktop menu (<salla-menu source="header">), custom expanding search,
-    theme toggle, wishlist, custom cart drawer trigger, account (<salla-user-menu>).
-  - Mobile burger opens the slide-in menu drawer (#mobile-menu, below).
-  - .is-scrolled (app.js) intensifies the glass on scroll.
-  Icon-only buttons all carry aria-labels and ≥44px targets.
+  header.twig — sticky glass header. Layout configurable via theme settings:
+    nav_layout: 'inline' (logo start + inline links) | 'centered' (logo centred)
+                | 'menu' (links hidden behind the hamburger on all sizes)
+    enable_mobile_bottomnav: show/hide the fixed bottom nav on mobile.
+  Arabic text is inline (Arabic-first store) so nothing renders as raw keys.
 #}
-<header class="site-header" data-header>
+{% set nav_layout = theme.settings.get('nav_layout', 'inline') %}
+<header class="site-header site-header--{{ nav_layout }}" data-header>
   <div class="container site-header__inner">
 
-    {# Mobile menu trigger #}
-    <button type="button" class="btn-icon lg:hidden" data-mobile-menu-open aria-label="{{ trans('common.elements.menu') }}" aria-controls="mobile-menu" aria-expanded="false">
+    {# Menu trigger — always on mobile; on desktop only in 'menu' layout #}
+    <button type="button" class="btn-icon nav-burger" data-mobile-menu-open aria-label="القائمة" aria-controls="mobile-menu" aria-expanded="false">
       <i class="sicon-menu" aria-hidden="true"></i>
     </button>
 
@@ -22,38 +22,36 @@
       {% endif %}
     </a>
 
-    {# Desktop primary nav #}
-    <nav class="site-nav" aria-label="{{ trans('common.elements.main_menu') }}">
+    {# Desktop primary nav (hidden in 'menu' layout via CSS) #}
+    <nav class="site-nav" aria-label="القائمة الرئيسية">
       <salla-menu source="header"></salla-menu>
     </nav>
 
     <div class="site-header__actions">
-      {# Expanding search (wired to salla quick-search in app.js) #}
       <div class="search" data-search>
-        <form class="search__field" role="search" action="{{ link('search') }}" method="get">
-          <input type="search" name="q" class="search__input" placeholder="{{ trans('pages.search.search') }}" aria-label="{{ trans('pages.search.search') }}" autocomplete="off" data-search-input>
+        <form class="search__field" role="search" action="{{ store.url }}" method="get">
+          <input type="search" name="q" class="search__input" placeholder="ابحث عن منتج…" aria-label="بحث" autocomplete="off" data-search-input>
         </form>
-        <button type="button" class="btn-icon" data-search-toggle aria-label="{{ trans('pages.search.search') }}" aria-expanded="false">
+        <button type="button" class="btn-icon" data-search-toggle aria-label="بحث" aria-expanded="false">
           <i class="sicon-search" aria-hidden="true"></i>
         </button>
-        <div class="search__results" data-search-results role="listbox" aria-label="{{ trans('pages.search.search') }}"></div>
+        <div class="search__results" data-search-results role="listbox" aria-label="نتائج البحث"></div>
       </div>
 
       {% if theme.settings.get('enable_dark_mode_toggle', true) %}
-        <button type="button" class="btn-icon" data-theme-toggle aria-label="{{ trans('common.elements.dark_mode') | default('الوضع الليلي') }}">
+        <button type="button" class="btn-icon" data-theme-toggle aria-label="الوضع الليلي">
           <i class="sicon-sun" aria-hidden="true"></i>
         </button>
       {% endif %}
 
-      <a href="{{ link('wishlist') }}" class="btn-icon hidden sm:inline-flex" aria-label="{{ trans('pages.wishlist.title') }}" style="position:relative">
+      <a href="{{ store.url }}wishlist" class="btn-icon hidden sm:inline-flex" aria-label="المفضلة" style="position:relative">
         <i class="sicon-heart" aria-hidden="true"></i>
         <span class="count-badge" data-wishlist-count hidden>0</span>
       </a>
 
       <salla-user-menu avatar-only show-header show-trigger></salla-user-menu>
 
-      {# Custom cart drawer trigger; count synced by sticky-cart.js via salla.cart events #}
-      <button type="button" class="btn-icon" data-cart-toggle aria-label="{{ trans('pages.cart.cart') }}" style="position:relative">
+      <button type="button" class="btn-icon" data-cart-toggle aria-label="سلة التسوّق" style="position:relative">
         <i class="sicon-shopping-bag" aria-hidden="true"></i>
         <span class="count-badge" data-cart-count hidden>0</span>
       </button>
@@ -63,10 +61,10 @@
 
 {# ===================== Mobile slide-in menu drawer ===================== #}
 <div class="m-menu-overlay" data-mobile-menu-overlay aria-hidden="true"></div>
-<aside id="mobile-menu" class="m-menu glass-strong" data-mobile-menu role="dialog" aria-modal="true" aria-label="{{ trans('common.elements.menu') }}" data-open="false" hidden>
+<aside id="mobile-menu" class="m-menu glass-strong" data-mobile-menu role="dialog" aria-modal="true" aria-label="القائمة" data-open="false" hidden>
   <div class="m-menu__head">
     <span class="site-header__logo"><span>{{ store.name }}</span></span>
-    <button type="button" class="btn-icon" data-mobile-menu-close aria-label="{{ trans('common.elements.close') }}"><i class="sicon-cancel" aria-hidden="true"></i></button>
+    <button type="button" class="btn-icon" data-mobile-menu-close aria-label="إغلاق"><i class="sicon-cancel" aria-hidden="true"></i></button>
   </div>
   <div class="m-menu__body">
     <salla-menu source="header" mobile></salla-menu>
@@ -79,22 +77,24 @@
   </div>
 </aside>
 
-{# ===================== Mobile bottom navigation ===================== #}
-<nav class="m-bottomnav glass-strong lg:hidden" aria-label="{{ trans('common.elements.main_menu') }}">
+{# ===================== Mobile bottom navigation (optional) ===================== #}
+{% if theme.settings.get('enable_mobile_bottomnav', true) %}
+<nav class="m-bottomnav glass-strong" aria-label="التنقل السريع">
   <a class="m-bottomnav__item {{ is_page('index') ? 'is-active' : '' }}" href="{{ store.url }}">
-    <i class="sicon-home" aria-hidden="true"></i><span>{{ trans('common.elements.home') | default('الرئيسية') }}</span>
+    <i class="sicon-home" aria-hidden="true"></i><span>الرئيسية</span>
   </a>
-  <a class="m-bottomnav__item" href="{{ link('products') }}">
-    <i class="sicon-category" aria-hidden="true"></i><span>{{ trans('common.elements.categories') | default('الأقسام') }}</span>
+  <a class="m-bottomnav__item" href="{{ store.url }}wishlist">
+    <i class="sicon-heart" aria-hidden="true"></i><span>المفضلة</span>
   </a>
-  <button type="button" class="m-bottomnav__item" data-search-toggle aria-label="{{ trans('pages.search.search') }}">
-    <i class="sicon-search" aria-hidden="true"></i><span>{{ trans('pages.search.search') }}</span>
+  <button type="button" class="m-bottomnav__item" data-search-toggle aria-label="بحث">
+    <i class="sicon-search" aria-hidden="true"></i><span>بحث</span>
   </button>
   <button type="button" class="m-bottomnav__item" data-cart-toggle style="position:relative">
-    <i class="sicon-shopping-bag" aria-hidden="true"></i><span>{{ trans('pages.cart.cart') }}</span>
+    <i class="sicon-shopping-bag" aria-hidden="true"></i><span>السلة</span>
     <span class="count-badge" data-cart-count hidden>0</span>
   </button>
-  <a class="m-bottomnav__item" href="{{ link('profile') }}">
-    <i class="sicon-user" aria-hidden="true"></i><span>{{ trans('common.elements.account') | default('حسابي') }}</span>
+  <a class="m-bottomnav__item" href="{{ store.url }}profile">
+    <i class="sicon-user" aria-hidden="true"></i><span>حسابي</span>
   </a>
 </nav>
+{% endif %}

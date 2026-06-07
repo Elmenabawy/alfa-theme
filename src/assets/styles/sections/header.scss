@@ -29,13 +29,21 @@
   align-items: center;
   gap: 1rem;
 }
-.site-header__logo { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; }
+.site-header__logo { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; display: inline-flex; align-items: center; }
 .site-header__logo span { background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.site-header__logo img { max-height: 40px; width: auto; }
 
+// ---- Hamburger trigger -----------------------------------------------------
+// Default: visible only on mobile. Layout variants can force it on at all sizes.
+.nav-burger { display: inline-flex; }
+@media (min-width: 1024px) { .nav-burger { display: none; } }
+
+// ---- Inline desktop nav ----------------------------------------------------
 .site-nav { display: none; }
 @media (min-width: 1024px) {
-  .site-nav { display: flex; align-items: center; gap: 0.25rem; margin-inline-start: 1rem; }
-  .site-nav a {
+  .site-nav { display: flex; align-items: center; gap: 0.25rem; margin-inline-start: 1.25rem; }
+  // <salla-menu> renders its own list; style the links it outputs.
+  .site-nav a, .site-nav ::part(item) {
     padding: 0.5rem 0.85rem;
     border-radius: var(--radius-pill);
     font-weight: 600;
@@ -45,7 +53,27 @@
   }
 }
 
-.site-header__actions { margin-inline-start: auto; display: flex; align-items: center; gap: 0.25rem; }
+.site-header__actions { margin-inline-start: auto; display: flex; align-items: center; gap: 0.15rem; }
+
+// ============================================================================
+//  Navbar layout variants (theme setting: nav_layout)
+// ============================================================================
+
+// 'menu' → links always behind the hamburger (no inline nav on desktop).
+.site-header--menu .site-nav { display: none; }
+.site-header--menu .nav-burger { display: inline-flex; }
+
+// 'centered' → logo visually centred; links behind the hamburger.
+.site-header--centered .site-nav { display: none; }
+.site-header--centered .nav-burger { display: inline-flex; }
+.site-header--centered .site-header__inner { position: relative; }
+.site-header--centered .site-header__logo {
+  position: absolute;
+  inset-inline: 0;
+  margin-inline: auto;
+  width: max-content;
+  pointer-events: auto;
+}
 
 // ---- Expanding search ------------------------------------------------------
 .search { position: relative; }

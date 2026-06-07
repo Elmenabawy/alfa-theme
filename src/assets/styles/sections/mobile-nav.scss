@@ -68,8 +68,9 @@
   .count-badge { inset-block-start: 2px; inset-inline-end: 18%; }
 }
 
-// Reserve space so the bottom nav never covers page content on mobile.
+// Reserve space so the bottom nav never covers page content on mobile —
+// only when the bottom nav is actually rendered (it's optional).
 @media (max-width: 1023px) {
-  body { padding-block-end: calc(60px + env(safe-area-inset-bottom)); }
+  body:has(.m-bottomnav) { padding-block-end: calc(60px + env(safe-area-inset-bottom)); }
 }
 @media (min-width: 1024px) { .m-bottomnav { display: none; } }

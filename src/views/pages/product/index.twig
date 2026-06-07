@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container">
   <header class="section" style="padding-block:2rem 1rem" data-reveal>
-    <h1 class="section__title">{{ category.name | default(trans('pages.products.title')) | default('كل المنتجات') }}</h1>
+    <h1 class="section__title">{{ category.name | default('كل المنتجات') }}</h1>
     {% if category.description is defined and category.description %}<p style="color:var(--color-text-muted);max-width:60ch">{{ category.description | raw }}</p>{% endif %}
   </header>
 
